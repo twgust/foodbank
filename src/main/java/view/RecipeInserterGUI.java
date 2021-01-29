@@ -9,6 +9,9 @@ import java.text.MessageFormat;
 import controller.Connector;
 import controller.RecipeInserter_SQL_Statements;
 
+/**
+ * The GUI for inserting recipes.
+ */
 public class RecipeInserterGUI extends JPanel
 {
     private static final Dimension tfDimensions = new Dimension(200, 25);
@@ -147,18 +150,14 @@ public class RecipeInserterGUI extends JPanel
         return panel;
     }
 
-    public void setStatusText(String string)
-    {
-        lblStatus.setText(string);
-    }
-    // listener for "add" button
-    // and query for adding a recipe to the DB
-    // the submit() function is invoked when "add" button is pressed, submit() then invokes the query() func
-    // inside the Connector class which in turn INSERTS the users recipe into the DB
-
+    /**
+     *listener for "add" button
+     *and query for adding a recipe to the DB
+     *submit() function is invoked when "add" button is pressed, submit() then invokes the query() func
+     *inside the RecipesInserter_SQL_Statement class which in turn INSERTS the users recipe into the DB
+     */
     private class SubmitListener implements ActionListener
     {
-
         public void submit(int category, String title, String description, int portions, String link, String imageLink,
                            String ingredients, String instructions)
         {

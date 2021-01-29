@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUI for inserting Relations
+ */
 public class RelationsInserterGUI extends JPanel
 {
     private RelationsInserter_SQL_Statements stmt;
@@ -213,6 +216,7 @@ public class RelationsInserterGUI extends JPanel
         @Override
         public void actionPerformed(ActionEvent e)
         {
+            System.out.println("HAijshfioashfiHEFI");
             stmt.parseQuery(listRecipeIngredients.getSelectedValue());
         }
     }

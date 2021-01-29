@@ -76,9 +76,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RelationsInserter_SQL_Statements" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.RelationsInserter_SQL_Statements" />
+      <module name="Food" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.RelationsInserter_SQL_Statements" />
       </list>
     </recent_temporary>
   </component>
@@ -113,25 +127,29 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="552" y="183" key="#Project_Structure/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611916723020" />
-    <state width="1877" height="297" key="GridCell.Tab.0.bottom" timestamp="1611919835605">
+    <state width="1877" height="177" key="GridCell.Tab.0.bottom" timestamp="1611932385304">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611919835605" />
-    <state width="1877" height="297" key="GridCell.Tab.0.center" timestamp="1611919835604">
+    <state width="1877" height="177" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385304" />
+    <state width="1877" height="177" key="GridCell.Tab.0.center" timestamp="1611932385303">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611919835604" />
-    <state width="1877" height="297" key="GridCell.Tab.0.left" timestamp="1611919835604">
+    <state width="1877" height="177" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385303" />
+    <state width="1877" height="177" key="GridCell.Tab.0.left" timestamp="1611932385303">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611919835604" />
-    <state width="1877" height="297" key="GridCell.Tab.0.right" timestamp="1611919835605">
+    <state width="1877" height="177" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385303" />
+    <state width="1877" height="177" key="GridCell.Tab.0.right" timestamp="1611932385304">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611919835605" />
+    <state width="1877" height="177" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385304" />
     <state x="440" y="99" key="SettingsEditor" timestamp="1611916784258">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="440" y="99" key="SettingsEditor/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611916784258" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1611932485015">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932485015" />
   </component>
 </project>

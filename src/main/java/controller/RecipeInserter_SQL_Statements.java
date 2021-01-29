@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.MessageFormat;
 
+/**
+ * Class containing the methods that are called when a SQL query is triggered in the RecipeInserterGUI
+ */
 public class RecipeInserter_SQL_Statements
 {
     private Connector connector;
