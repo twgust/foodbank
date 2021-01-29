@@ -1,8 +1,6 @@
 package controller;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.*;
 
 /**
  * controller.Connector class, handles the connection to the SQL database and functions used to query data from the DB
@@ -27,41 +25,94 @@ public class Connector
         }
     }
 
-    /**
-     * Simple insert statement, function invoked when a recipe is added in the GUI client (RecipeInserterGUI)
-     * @param category category column in recipe table
-     * @param title title column in title table
-     * @param description description column in recipe table
-     * @param portions portions column in recipe table
-     * @param link link column in recipe table
-     * @param imageLink imageLink column in recipe table
-     * @param ingredients ingredients column in recipe table
-     * @param instructions instructions column in recipe table
-     * @return returns true if query is executed without sqlexceptions, else false.
-     */
-    public boolean query(int category, String title, String description, int portions, String link, String imageLink,
-                         String ingredients, String instructions) {
-        try {
-            String query = "INSERT INTO recipes (category,title,portions,descr,ingredients,instructions,image,link) VALUES (?,?,?,?,?,?,?,?)";
-            try {
+    public Connection getConnection()
+    {
+        return this.connection;
+    }
+
+    public ResultSet loadRecipes()
+    {
+        try
+        {
+            String query = "SELECT * FROM recipes";
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(query);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet loadRecipeIngredients(String title)
+    {
+        try
+        {
+            String query = "SELECT * FROM recipes WHERE title='" + title + "';";
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(query);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int getRecipeId(String selectedRecipe)
+    {
+        try
+        {
+            String query = "SELECT * FROM recipes WHERE title='" + selectedRecipe + "'";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet != null)
+            {
+                resultSet.next();
+                return resultSet.getInt("recipe_id");
+            }
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void sendRelation(int recipeId, String ingredientId, String ingredientUnit)
+    {
+        try
+        {
+            String query = "INSERT INTO relations(recipe_id,ingredients_id,units) VALUES (?,?,?)";
+            try
+            {
                 PreparedStatement statement = connection.prepareStatement(query);
-                statement.setInt(1, category);
-                statement.setString(2, title);
-                statement.setInt(3, portions+2);
-                statement.setString(4, description);
-                statement.setString(5, ingredients);
-                statement.setString(6, instructions);
-                statement.setString(7, imageLink);
-                statement.setString(8, link);
+                statement.setInt(1, recipeId);
+                statement.setInt(2, Integer.parseInt(ingredientId));
+                statement.setInt(3, Integer.parseInt(ingredientUnit));
                 statement.executeUpdate();
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
-            return false;
         }
-        return true;
+    }
+
+    public ResultSet loadDatabaseIngredient(String result)
+    {
+        try
+        {
+            String query = "SELECT * FROM ingredients2 WHERE title LIKE '%" + result + "%'";
+            Statement statement = connection.createStatement();
+            System.out.println("Got ingredient with query: " + query);
+            return statement.executeQuery(query);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
