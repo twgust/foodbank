@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="98b35b84-edde-4851-bd8b-7e7bccd92dba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ExcludeMap_AutoInserter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/RelationPriceInserter_SQL_Statements.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/RelationPriceInserter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RelationPriceInserter_SQL_Statements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RelationPriceInserter_SQL_Statements.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

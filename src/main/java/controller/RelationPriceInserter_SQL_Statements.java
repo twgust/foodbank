@@ -12,7 +12,7 @@ public class RelationPriceInserter_SQL_Statements {
     }
     public ResultSet loadRelations(int recipeId) {
         try {
-            String query = "SELECT * FROM relations WHERE recipe_id=" + recipeId;
+            String query = "SELECT * FROM relationthas WHERE recipe_id=" + recipeId;
             Statement statement = connection.createStatement();
             return statement.executeQuery(query);
         } catch (Exception e) {
