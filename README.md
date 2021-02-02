@@ -9,6 +9,7 @@ https://sqlbackupandftp.com/blog/restore-database-backup
 IntelliJ
 java: JDK 13, Maven
 Klona repositoriet från: https://github.com/twgust/group8
+
 Ladda ned/klona det som en .zip fil, .zip filen kan sedan extraheras och köras
 som ett vanligt intelliJ projekt. 
 
