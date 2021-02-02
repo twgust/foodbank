@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="98b35b84-edde-4851-bd8b-7e7bccd92dba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/Connector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/RecipeInserterGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ExcludeMap_AutoInserter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/RelationPriceInserter_SQL_Statements.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Food.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Connection.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +48,18 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Sys-2 Projekt Git\group8\files" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Connector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
