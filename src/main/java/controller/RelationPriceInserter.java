@@ -23,14 +23,14 @@ public class RelationPriceInserter {
         relationPrices = new ArrayList<String>();
     }
 
-    private void loadRelations() throws SQLException {
+    public void loadRelations() throws SQLException {
         ResultSet set = statements.loadAllRelations();
 
         while(set.next()) {
             relationStrings.add(set.getInt("relation_id") + " " + set.getInt("recipe_id") + " " + set.getInt("ingredients_id") + " " + set.getInt("units"));
         }
     }
-    private void insertPrices() throws SQLException {
+      public void insertPrices() throws SQLException {
         for(String s : relationStrings) {
             String[] array = s.split(" ");
             ResultSet set = statements.loadIngredient(Integer.parseInt(array[2]));
