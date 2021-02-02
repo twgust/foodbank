@@ -13,6 +13,8 @@ public class Main {
         //Has to be done in this order for it to work
         RelationsInserter_SQL_Statements stmt = new RelationsInserter_SQL_Statements(connector);
         RelationsInserterGUI relGui = new RelationsInserterGUI(stmt);
+        RelationPriceInserter_SQL_Statements relPriceSql = new RelationPriceInserter_SQL_Statements(connector);
+        RelationPriceInserter relPrice = new RelationPriceInserter(relPriceSql);
         stmt.setGui(relGui);
 
     }
