@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Connector connector = new Connector();
         //Un-comment to start the RecipeInserter
-        //RecipeInserterGUI recGui = new RecipeInserterGUI(new RecipeInserter_SQL_Statements(connector));
+        RecipeInserterGUI recGui = new RecipeInserterGUI(new RecipeInserter_SQL_Statements(connector));
 
         //For starting the RealstionsInserter
         //Has to be done in this order for it to work
@@ -22,7 +22,7 @@ public class Main {
         relPrice.loadRelations();
         relPrice.insertPrices();
         // --------------------
-        
+
         stmt.setGui(relGui);
 
     }
