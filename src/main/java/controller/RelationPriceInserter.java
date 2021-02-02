@@ -17,9 +17,8 @@ public class RelationPriceInserter {
     private RelationPriceInserter_SQL_Statements statements;
 
 
-    public RelationPriceInserter(){
-        connector = new Connector();
-        statements = new RelationPriceInserter_SQL_Statements(connector.getConnection());
+    public RelationPriceInserter(RelationPriceInserter_SQL_Statements sql_statements){
+        this.statements = sql_statements;
         relationStrings = new LinkedList<String>();
         relationPrices = new ArrayList<String>();
     }
