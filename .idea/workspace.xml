@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="98b35b84-edde-4851-bd8b-7e7bccd92dba" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,18 +43,6 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Sys-2 Projekt Git\group8\files" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Connector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -129,22 +116,26 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="552" y="183" key="#Project_Structure/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611916723020" />
-    <state width="1877" height="177" key="GridCell.Tab.0.bottom" timestamp="1611932385304">
+    <state x="808" y="414" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1612365666298">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="177" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385304" />
-    <state width="1877" height="177" key="GridCell.Tab.0.center" timestamp="1611932385303">
+    <state x="808" y="414" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612365666298" />
+    <state width="1877" height="371" key="GridCell.Tab.0.bottom" timestamp="1612366516507">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="177" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385303" />
-    <state width="1877" height="177" key="GridCell.Tab.0.left" timestamp="1611932385303">
+    <state width="1877" height="371" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
+    <state width="1877" height="371" key="GridCell.Tab.0.center" timestamp="1612366516507">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="177" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385303" />
-    <state width="1877" height="177" key="GridCell.Tab.0.right" timestamp="1611932385304">
+    <state width="1877" height="371" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
+    <state width="1877" height="371" key="GridCell.Tab.0.left" timestamp="1612366516507">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="177" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932385304" />
+    <state width="1877" height="371" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
+    <state width="1877" height="371" key="GridCell.Tab.0.right" timestamp="1612366516507">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="371" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
     <state x="440" y="99" key="SettingsEditor" timestamp="1611916784258">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
