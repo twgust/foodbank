@@ -17,7 +17,7 @@ public class Connector
         try {
             System.out.println("Connecting to MSSQL database...");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=food;", "user", "123");
+            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=Food;", "user", "123");
             //connection = DriverManager.getConnection("jdbc:mysql://195.178.232.16:3306/aj1757","aj1757","foodbank123");
             System.out.println("Successfully connected");
         } catch (Exception e) {
