@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="98b35b84-edde-4851-bd8b-7e7bccd92dba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/food (2).bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/java.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/java1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/files/coopSort.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/Envelope.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/JsonReaderExample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/CreateRecipeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/Connector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/Food.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,26 +42,57 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/JSON-java-master/JSON-java-master/src" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\marti\Documents\GitHub\group8" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Sys-2 Projekt Git\group8\files" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\marti\Documents\GitHub\group8\files" />
+      <recent name="C:\Users\marti\Documents\GitHub\group8" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.JsonReaderExample">
     <configuration name="Connector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="controller.Connector" />
       <module name="Food" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreateRecipeView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="view.CreateRecipeView" />
+      <module name="group8" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonReaderExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.JsonReaderExample" />
+      <module name="group8" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -89,6 +125,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.JsonReaderExample" />
+        <item itemvalue="Application.CreateRecipeView" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.RelationsInserter_SQL_Statements" />
       </list>
@@ -141,39 +179,59 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="552" y="183" key="#Project_Structure/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611916723020" />
+    <state x="721" y="175" key="#com.intellij.ide.util.MemberChooser" timestamp="1613135302642">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="721" y="175" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1613135302642" />
     <state x="808" y="414" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1612365666298">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="808" y="414" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612365666298" />
-    <state width="904" height="254" key="GridCell.Tab.0.bottom" timestamp="1612555078040">
+    <state x="785" y="187" key="DetectedRootsChooserDialog" timestamp="1613054928343">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="785" y="187" key="DetectedRootsChooserDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1613054928343" />
+    <state x="774" y="225" key="FileChooserDialogImpl" timestamp="1613055878882">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="774" y="225" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1613055878882" />
+    <state width="1867" height="257" key="GridCell.Tab.0.bottom" timestamp="1613137286750">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="371" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
-    <state width="904" height="254" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1612555078040" />
-    <state width="904" height="254" key="GridCell.Tab.0.center" timestamp="1612555078039">
+    <state width="1867" height="257" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1613137286750" />
+    <state width="1867" height="257" key="GridCell.Tab.0.center" timestamp="1613137286750">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="371" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
-    <state width="904" height="254" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1612555078039" />
-    <state width="904" height="254" key="GridCell.Tab.0.left" timestamp="1612555078038">
+    <state width="1867" height="257" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1613137286750" />
+    <state width="1867" height="257" key="GridCell.Tab.0.left" timestamp="1613137286750">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="371" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
-    <state width="904" height="254" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1612555078038" />
-    <state width="904" height="254" key="GridCell.Tab.0.right" timestamp="1612555078039">
+    <state width="1867" height="257" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1613137286750" />
+    <state width="1867" height="257" key="GridCell.Tab.0.right" timestamp="1613137286750">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="371" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1612366516507" />
-    <state width="904" height="254" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1612555078039" />
-    <state x="440" y="14" key="SettingsEditor" timestamp="1612523485880">
+    <state width="1867" height="257" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1613137286750" />
+    <state x="755" y="185" key="Maven.ArtifactSearchDialog" timestamp="1613055392498">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="755" y="185" key="Maven.ArtifactSearchDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1613055392498" />
+    <state x="451" y="14" key="SettingsEditor" timestamp="1613055961101">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="440" y="99" key="SettingsEditor/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611916784258" />
-    <state x="440" y="14" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1612523485880" />
-    <state x="714" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1612866063182">
+    <state x="451" y="14" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1613055961101" />
+    <state x="714" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1613034899774">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="714" y="380" key="com.intellij.ide.util.TipDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1612866063182" />
+    <state x="714" y="380" key="com.intellij.ide.util.TipDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1613034899774" />
+    <state x="751" y="414" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1613055947342">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="751" y="414" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1080@0.0.1920.1080" timestamp="1613055947342" />
     <state x="877" y="496" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612866415728">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -182,9 +240,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="291" y="45" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1612527135478" />
-    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1611932485015">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="623" y="233" width="840" height="698" key="search.everywhere.popup" timestamp="1613136547788">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1611932485015" />
+    <state x="623" y="233" width="840" height="698" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1613136547788" />
   </component>
 </project>
