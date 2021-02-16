@@ -1,4 +1,4 @@
-package controller;
+package entity;
 
 import java.util.ArrayList;
 
@@ -35,6 +35,10 @@ public class Product {
         this.prod_price = prod_price;
     }
 
+
+    /*
+    Lägger till Produktnamn , pris och kategori för varje produktobjekt i en arraylist.
+     */
     public ArrayList<Product> addProducts(String prod_name, String prod_price, String category) {
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(new Product(prod_name, prod_price, category));

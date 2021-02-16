@@ -2,32 +2,48 @@ package controller;
 
 
 import com.google.gson.*;
+import entity.Product;
 
 import javax.swing.*;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
-public class JsonReaderExample extends JFrame {
+public class JsonReaderExample  {
     JTextArea area = new JTextArea("");
     String prod_name;
     String prod_price;
     String category;
 
+
     Product prod;
     public JsonReaderExample() {
-        setSize(400, 1000);
-        setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        add(area);
+
+
 
     }
+
+
+    /*private static boolean filterMatch(final String filteredCategory, final Iterable<JsonObject> jsonFilterList) {
+        if (jsonFilterList == null) {
+            return true;
+        }
+
+        try {
+            for (JsonObject j : jsonFilterList) {
+                if (j.get("Dryck").equals(filteredCategory)) {
+                    return false;
+                }
+                else return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }*/
+
+
 
 
     private void parseProdObj() {
@@ -35,23 +51,36 @@ public class JsonReaderExample extends JFrame {
         try {
             JsonParser parser = new JsonParser();
             JsonArray a = (JsonArray) parser.parse(new FileReader("files/coopSort.json"));
+
+            // List for relevant filter
+
+
+
+
             for (Object o : a) {
                 JsonObject product = (JsonObject) o;
-                prod = new Product(prod_name, prod_price,category);
+                System.out.println("1");
 
-                prod_name = String.valueOf(product.get("prod_name"));
+                JsonPrimitive prim = product.get("Category").getAsJsonPrimitive();
+                String primString = prim.toString();
 
-
-                prod_price = String.valueOf(product.get("prod_price"));
-                prod.setProd_price(prod_price);
-
-
-                category = String.valueOf(product.get("Category"));
-                prod.setCategory(category);
+                if (primString.equals("Frys\n                    \n                        \n                            \n                                Pil"))
+                {
+                    System.out.println(primString);
+                }
 
 
 
-                System.out.println(prod.addProducts(prod_name, prod_price, category));
+
+
+                /*if (primString.contains("Hem & HushÃ¥ll\n                    \n                        \n                            \n                                Pil")) {
+                    System.out.println(primString);
+
+
+                }*/
+
+
+
 
 
             }
