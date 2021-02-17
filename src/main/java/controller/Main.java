@@ -1,8 +1,5 @@
 package controller;
 
-import view.RecipeInserterGUI;
-import view.RelationsInserterGUI;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
