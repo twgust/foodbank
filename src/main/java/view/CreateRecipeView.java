@@ -62,7 +62,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         initSearchBox();
     }
     /*
-    Placerar rutan komponenter på given plats med koordinater och storlekar.
+    Placerar rutans komponenter på given plats med koordinater och storlekar.
      */
     private void setLayout() {
         lblSearch.setBounds(500, 70, 200, 30);
@@ -89,7 +89,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     }
 
     /*
-    Lägger till alla komponenter i Jframen. Uppdelat för varje "Sektion" Höger -> vänster.
+    Lägger till alla komponenter i Jframen. Uppdelat för varje "Sektion" Vänster -> höger.
      */
     public void addComponents() {
         con.add(lblSearch);
