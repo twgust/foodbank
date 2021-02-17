@@ -25,7 +25,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JList<String> searchList = new JList<String>();
 
 
-
     JComboBox searchBox = new JComboBox();
 
     JTextField tfRecipename = new JTextField();
@@ -41,7 +40,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JList<String> listIng = new JList<String>();
     JButton btnAddRecipe = new JButton("Lägg till Recept");
     DefaultListModel listIngModel = new DefaultListModel();
-
 
 
     public CreateRecipeView() {
@@ -61,13 +59,14 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnActions();
         initSearchBox();
     }
+
     /*
     Placerar rutans komponenter på given plats med koordinater och storlekar.
      */
     private void setLayout() {
         lblSearch.setBounds(500, 70, 200, 30);
-       // btnSearch.setBounds(850, 150, 200, 30);
-       // tfSearch.setBounds(850, 100, 200, 35);
+        // btnSearch.setBounds(850, 150, 200, 30);
+        // tfSearch.setBounds(850, 100, 200, 35);
         searchBox.setBounds(500, 100, 200, 35);
         searchList.setBounds(500, 220, 200, 300);
         lblAmt.setBounds(500, 550, 200, 35);
@@ -75,7 +74,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnAddIng.setBounds(500, 630, 200, 35);
 
 
-        lblRecipe.setBounds(150, 80, 200, 30 );
+        lblRecipe.setBounds(150, 80, 200, 30);
         tfRecipename.setBounds(150, 120, 200, 30);
         lblInstruction.setBounds(150, 170, 200, 30);
         instructionsArea.setBounds(150, 220, 200, 300);
@@ -83,7 +82,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         lblIng.setBounds(800, 100, 280, 35);
         listIng.setBounds(800, 130, 280, 400);
         btnAddRecipe.setBounds(800, 560, 200, 35);
-
 
 
     }
@@ -111,11 +109,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         listIng.setModel(listIngModel);
 
 
-
-
-
-
-
     }
 
     /*
@@ -139,20 +132,22 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     public void btnActions() {
         btnSearch.addActionListener(this);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == searchBox) {
-            
+
+
+        }
+
+
 
     }
 
-
-
-
-
-    public static void main(String[] args) {
+    public static void main (String[]args){
         CreateRecipeView vie = new CreateRecipeView();
 
     }
+
 }

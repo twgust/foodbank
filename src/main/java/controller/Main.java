@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Main
 {
-    private void runInTerminal()
+   /* private void runInTerminal()
     {
         Connector connector = new Connector();
 
@@ -49,5 +49,5 @@ public class Main
     {
         Main prog = new Main();
         prog.runInTerminal();
-    }
+    }*/
 }
