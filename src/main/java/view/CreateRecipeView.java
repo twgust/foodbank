@@ -141,10 +141,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == searchBox) {
-
-
-        }
+            
 
     }
 
