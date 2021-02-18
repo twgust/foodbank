@@ -15,9 +15,9 @@ public class Connector
     public Connector()
     {
         try {
-            System.out.println("Connecting to MSSQL database...");
+            System.out.println("Connecting to MySQL database...");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=Food;", "user", "123");
+            connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=FoodBankDB;", "user", "123");
             //connection = DriverManager.getConnection("jdbc:mysql://195.178.232.16:3306/aj1757","aj1757","foodbank123");
             System.out.println("Successfully connected");
         } catch (Exception e) {
@@ -32,6 +32,11 @@ public class Connector
     public Connection getConnection()
     {
         return this.connection;
+    }
+
+
+    public static void main(String[] args) {
+        Connector con = new Connector();
     }
 
 }

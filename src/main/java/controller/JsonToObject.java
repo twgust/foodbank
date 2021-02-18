@@ -9,21 +9,27 @@ import java.io.Reader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 public class JsonToObject {
+    Connector connector = new Connector();
+
 
 
     //Product product = new Product();
 
 
-    private static void parseJsonEx() {
+    private void parseJsonEx() {
 
         try {
-
+            Statement st = connector.getConnection().createStatement();
             // Product p = new Product();
             JsonParser parser = new JsonParser();
             JsonArray a = (JsonArray) parser.parse(new FileReader("files/coopSort.json"));
@@ -42,72 +48,123 @@ public class JsonToObject {
                 String cat8 = "\"Bröd & Bageri\\n                    \\n                        \\n                            \\n                                Pil\"";
                 String cat9 = "Ost\n                    \n                        \n                            \n                                Pil";
                 String cat10 = "Frukt & Grönsaker\n                    \n                        \n                            \n                                Pil";
+                String cat11 = "Färdigmat & Mellanmål\n                    \n                        \n                            \n                                Pil";
 
-                String prod_name = String.valueOf(p.get("prod_name").getAsString());
-                String prod_price = String.valueOf(p.get("prod_price").getAsString());
-                String categori = String.valueOf(p.get("Category").getAsString());
+             //   String prod_name = String.valueOf(p.get("prod_name").getAsString());
+               // String prod_compPrice = String.valueOf(p.get("prod_compPrice").getAsString());
+              //  int idx = prod_price.lastIndexOf(':') +1;
+              //  String priceCorr = prod_price.substring(0, idx).replace(':', '.') + prod_price.substring(idx);
+
+
+
+                String categori = "";
+                String prod_name = "";
+                String prod_compPrice = "";
+                String prod_nname = "";
+                String prod_nnname = "";
+
+                String priceCorr2 = "";
+                String priceCorr3 = "";
+                String priceCorr4 = "";
+                String priceCorr5 = "";
+                String priceCorr6 = "";
+                String priceCorr7 = "";
+                String priceCorr8 = "";
+                String priceCorr9 = "";
+                String priceCorr10 = "";
+                String priceC0rr11 = "";
+                String priceC0rr12 = "";
+                String priceC0rr13 = "";
+                String unitSt = "";
+                String unitKg = "";
+                String unitLit = "";
+
+                connector.getConnection();
+
+                if(p.get("prod_name") != null && !p.get("prod_name").isJsonNull()) {
+                    prod_name = String.valueOf(p.get("prod_name").getAsString());
+                    prod_nname = prod_name.replace("'", "");
+                    prod_nnname = prod_nname.replace("%", "");
+
+
+                }
+
+                if(p.get("prod_compPrice") != null &&!p.get("prod_compPrice").isJsonNull()) {
+                    prod_compPrice = String.valueOf(p.get("prod_compPrice").getAsString());
+                    priceCorr2 = prod_compPrice.replace("Jfr-pris ", "");
+                    priceCorr3 = priceCorr2.replace("/kr/kg.", "");
+                    priceCorr4 = priceCorr3.replace("/kr/lit.", "");
+                    priceCorr5 = priceCorr4.replace("/kr/st.", "");
+                    priceCorr6 = priceCorr5.replace("/utan sås/spad.", "");
+                    priceCorr7 = priceCorr6.replace("/kr/lit drickfärdig.", "");
+                    priceCorr8 = priceCorr7.replace(" ", "");
+                    priceCorr9 = priceCorr8.replace("kr/kg ätklar.", "");
+                    priceC0rr11 = priceCorr9.replace("å", "a");
+                    priceC0rr12 = priceC0rr11.replace("ä", "a");
+                    priceC0rr13 = priceC0rr12.replace("ö", "o");
 
 
 
 
-                if (categori.equals(cat0)) {
-                    System.out.println("dryck ");
-                System.out.println(prod_name + " " + prod_price);
+
+
                 }
-                if (categori.equals(cat1)) {
-                    System.out.println("vegetariskt ");
-                    System.out.println(prod_name + " " + prod_price);
+
+
+                if(p.get("Category") != null &&!p.get("Category").isJsonNull()) {
+                    categori = String.valueOf(p.get("Category").getAsString());
+
                 }
-                if (categori.equals(cat2)) {
-                    System.out.println("skafferi ");
-                    System.out.println(prod_name + " " + prod_price);
+
+
+
+                if ((categori.equals(cat0)) || (categori.equals(cat1)) || (categori.equals(cat2)) ||
+                        (categori.equals(cat3)) || (categori.equals(cat4)) || (categori.equals(cat5)) ||
+                        (categori.equals(cat6)) || (categori.equals(cat7)) || (categori.equals(cat8)) || (categori.equals(cat9)) || (categori.equals(cat10)) || (categori.equals(cat11)))
+                {
+                    /*String query = "Insert into FoodBankDB.dbo.Livsmedel(l_namn) values('"+prod_name+"');";
+                    Statement st = connector.getConnection().createStatement();
+                    st.executeQuery(query);
+                    connector.getConnection().close();
+                    st.close();*/
+
+
+                   String query = "Insert into FoodBankDB.dbo.food(n,p) values('"+prod_name+"', "+priceC0rr13+");";
+                   st.executeUpdate(query);
+
+
+
+
+
+                   // System.out.println(priceCorr5);
+
+                   // System.out.println(prod_nnname);
+                   // System.out.println(priceCorr4);
+
+
+
                 }
-                if (categori.equals(cat3)) {
-                    System.out.println("Kött, Fågel & Chark ");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat4)) {
-                    System.out.println("Frys ");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat5)) {
-                    System.out.println("Fisk & Skaldjur ");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat6)) {
-                    System.out.println("Kryddor & Smaksättare");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat7)) {
-                    System.out.println("Mejeri & Ägg");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat8)) {
-                    System.out.println("Bröd & Bageri ");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat9)) {
-                    System.out.println("Ost");
-                    System.out.println(prod_name + " " + prod_price);
-                }
-                if (categori.equals(cat10)) {
-                    System.out.println("Frukt & Grönsaker");
-                    System.out.println(prod_name + " " + prod_price);
-                }
+
 
             }
-        } catch (IOException e) {
+            st.close();
+            connector.getConnection().close();
+        } catch (Exception e) {
         e.printStackTrace();
           }
 
 
     }
 
+
+
+
+
         public static void main (String[]args){
 
-        parseJsonEx();
 
-
+        JsonToObject o = new JsonToObject();
+        o.parseJsonEx();
 
 
 
