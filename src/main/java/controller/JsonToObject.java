@@ -61,7 +61,7 @@ public class JsonToObject {
                 String prod_name = "";
                 String prod_compPrice = "";
                 String prod_nname = "";
-                String prod_nnname = "";
+
 
                 String priceCorr2 = "";
                 String priceCorr3 = "";
@@ -71,20 +71,12 @@ public class JsonToObject {
                 String priceCorr7 = "";
                 String priceCorr8 = "";
                 String priceCorr9 = "";
-                String priceCorr10 = "";
-                String priceC0rr11 = "";
-                String priceC0rr12 = "";
-                String priceC0rr13 = "";
-                String unitSt = "";
-                String unitKg = "";
-                String unitLit = "";
 
                 connector.getConnection();
 
                 if(p.get("prod_name") != null && !p.get("prod_name").isJsonNull()) {
                     prod_name = String.valueOf(p.get("prod_name").getAsString());
                     prod_nname = prod_name.replace("'", "");
-                    prod_nnname = prod_nname.replace("%", "");
 
 
                 }
@@ -98,14 +90,7 @@ public class JsonToObject {
                     priceCorr6 = priceCorr5.replace("/utan sås/spad.", "");
                     priceCorr7 = priceCorr6.replace("/kr/lit drickfärdig.", "");
                     priceCorr8 = priceCorr7.replace(" ", "");
-                    priceCorr9 = priceCorr8.replace("kr/kg ätklar.", "");
-                    priceC0rr11 = priceCorr9.replace("å", "a");
-                    priceC0rr12 = priceC0rr11.replace("ä", "a");
-                    priceC0rr13 = priceC0rr12.replace("ö", "o");
-
-
-
-
+                    priceCorr9 = priceCorr8.replace("kr/kg ätklar. ", "");
 
 
                 }
@@ -117,30 +102,15 @@ public class JsonToObject {
                 }
 
 
-
                 if ((categori.equals(cat0)) || (categori.equals(cat1)) || (categori.equals(cat2)) ||
                         (categori.equals(cat3)) || (categori.equals(cat4)) || (categori.equals(cat5)) ||
                         (categori.equals(cat6)) || (categori.equals(cat7)) || (categori.equals(cat8)) || (categori.equals(cat9)) || (categori.equals(cat10)) || (categori.equals(cat11)))
                 {
-                    /*String query = "Insert into FoodBankDB.dbo.Livsmedel(l_namn) values('"+prod_name+"');";
-                    Statement st = connector.getConnection().createStatement();
-                    st.executeQuery(query);
-                    connector.getConnection().close();
-                    st.close();*/
 
 
-                   String query = "Insert into FoodBankDB.dbo.food(n,p) values('"+prod_name+"', "+priceC0rr13+");";
+
+                   String query = "Insert into FoodBankDB.dbo.food(n,p) values('"+prod_name+"',"+priceCorr9+");";
                    st.executeUpdate(query);
-
-
-
-
-
-                   // System.out.println(priceCorr5);
-
-                   // System.out.println(prod_nnname);
-                   // System.out.println(priceCorr4);
-
 
 
                 }
@@ -155,9 +125,6 @@ public class JsonToObject {
 
 
     }
-
-
-
 
 
         public static void main (String[]args){

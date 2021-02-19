@@ -1,15 +1,11 @@
 package view;
 
-import entity.Product;
+import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
 /*
  * Denna klass innehåller gränssnittet mot användaren som ska söka på ingredienser, lägga till ingredienser, lägga till recept och söka på recept.
@@ -25,7 +21,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JList<String> searchList = new JList<String>();
 
 
-    JComboBox searchBox = new JComboBox();
+    JTextField tfSearchRec = new JTextField();
 
     JTextField tfRecipename = new JTextField();
     JLabel lblRecipe = new JLabel("Benämning");
@@ -39,15 +35,21 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JLabel lblIng = new JLabel("Ingredienser");
     JList<String> listIng = new JList<String>();
     JButton btnAddRecipe = new JButton("Lägg till Recept");
-    DefaultListModel listIngModel = new DefaultListModel();
+
+    DefaultListModel listSearchModel = new DefaultListModel();
+    JScrollPane searchScrollPane = new JScrollPane(searchList);
 
 
-    public CreateRecipeView() {
+    Controller controller = null;
+
+
+    public CreateRecipeView(Controller c) {
+        controller = c;
+
         setTitle("Recept");
         setBounds(10, 10, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setVisible(true);
 
         setLayoutManager();
     }
@@ -57,7 +59,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         setLayout();
         addComponents();
         btnActions();
-        initSearchBox();
+
     }
 
     /*
@@ -65,10 +67,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
      */
     private void setLayout() {
         lblSearch.setBounds(500, 70, 200, 30);
-        // btnSearch.setBounds(850, 150, 200, 30);
+         btnSearch.setBounds(500, 150, 200, 30);
         // tfSearch.setBounds(850, 100, 200, 35);
-        searchBox.setBounds(500, 100, 200, 35);
-        searchList.setBounds(500, 220, 200, 300);
+        tfSearchRec.setBounds(500, 100, 200, 35);
+        searchScrollPane.setBounds(500, 220, 200, 300);
         lblAmt.setBounds(500, 550, 200, 35);
         tfAmt.setBounds(500, 580, 200, 35);
         btnAddIng.setBounds(500, 630, 200, 35);
@@ -92,8 +94,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     public void addComponents() {
         con.add(lblSearch);
         con.add(btnSearch);
-        con.add(tfSearch);
-        con.add(searchList);
+       // con.add(tfSearch);
+       // con.add(searchList);
+        con.add(searchScrollPane);
         con.add(lblRecipe);
         con.add(tfRecipename);
         con.add(lblInstruction);
@@ -103,31 +106,30 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(tfAmt);
         con.add(btnAddIng);
 
+        con.add(tfSearchRec);
         con.add(lblIng);
         con.add(listIng);
         con.add(btnAddRecipe);
-        listIng.setModel(listIngModel);
+        searchList.setModel(listSearchModel);
+
+
+
+
 
 
     }
 
-    /*
-    Initierar sökrutan där söning på ingredienser kommer göras. Använder java SwingX-biblioteket. (Tillagt i pom.xml som dependency)
-     */
-    public void initSearchBox() {
-        searchBox.setEditable(true);
-        con.add(searchBox);
-        searchBox.setSelectedItem("");
-        searchBox.addItem("Spenat");
-        searchBox.addItem("Pasta");
-        searchBox.addItem("Lök");
-        searchBox.addItem("Stök");
-        searchBox.addItem("Gök");
-
-
-        AutoCompleteDecorator.decorate(searchBox);
-
+    public String getSearchRep() {
+        return tfSearchRec.getText();
     }
+    public DefaultListModel getListIngModel() {
+        return listSearchModel;
+    }
+    public JList getList() {
+        return searchList;
+    }
+
+
 
     public void btnActions() {
         btnSearch.addActionListener(this);
@@ -135,18 +137,17 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnSearch) {
+            controller.getSearch();
+        }
 
-        if (e.getSource() == searchBox) {
-
+        if (e.getSource() == btnAddIng) {
 
         }
 
 
 
-    }
 
-    public static void main (String[]args){
-        CreateRecipeView vie = new CreateRecipeView();
 
     }
 
