@@ -109,7 +109,7 @@ public class JsonToObject {
 
 
 
-                   String query = "Insert into FoodBankDB.dbo.food(n,p) values('"+prod_name+"',"+priceCorr9+");";
+                   String query = "Insert into FoodBankDB.dbo.Livsmedel(l_namn,l_pris) values('"+prod_name+"',"+priceCorr9+");";
                    st.executeUpdate(query);
 
 
