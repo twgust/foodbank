@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
  */
 
 public class CreateRecipeView extends JFrame implements ActionListener {
+
     Container con = getContentPane();
 
     JLabel lblSearch = new JLabel("Sök ingredienser");
@@ -84,9 +85,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         lblIng.setBounds(800, 100, 280, 35);
         listIng.setBounds(800, 130, 280, 400);
         btnAddRecipe.setBounds(800, 560, 200, 35);
-
-
     }
+
 
     /*
     Lägger till alla komponenter i Jframen. Uppdelat för varje "Sektion" Vänster -> höger.
@@ -111,13 +111,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(listIng);
         con.add(btnAddRecipe);
         searchList.setModel(listSearchModel);
-
-
-
-
-
-
     }
+
 
     public String getSearchRep() {
         return tfSearchRec.getText();
@@ -144,9 +139,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         if (e.getSource() == btnAddIng) {
 
         }
-
-
-
 
 
     }
