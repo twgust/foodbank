@@ -33,6 +33,15 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JTextField tfAmt = new JTextField();
     JButton btnAddIng = new JButton("Lägg till Ingredienser");
 
+    JLabel lblAddIng = new JLabel("Ingrediens");
+    JTextField tfAddIng = new JTextField("Ingrediens här");
+
+    JLabel lblPris = new JLabel("Pris/enhet");
+    JTextField tfPris = new JTextField("Pris här");
+
+    JLabel lblEnhet = new JLabel("Enhet");
+    JTextField tfEnhet = new JTextField("Enhet här");
+
     JLabel lblIng = new JLabel("Ingredienser");
     JList<String> listIng = new JList<String>();
     JButton btnAddRecipe = new JButton("Lägg till Recept");
@@ -68,13 +77,24 @@ public class CreateRecipeView extends JFrame implements ActionListener {
      */
     private void setLayout() {
         lblSearch.setBounds(500, 70, 200, 30);
-         btnSearch.setBounds(500, 150, 200, 30);
+        btnSearch.setBounds(500, 150, 200, 30);
         // tfSearch.setBounds(850, 100, 200, 35);
         tfSearchRec.setBounds(500, 100, 200, 35);
         searchScrollPane.setBounds(500, 220, 200, 300);
-        lblAmt.setBounds(500, 550, 200, 35);
-        tfAmt.setBounds(500, 580, 200, 35);
-        btnAddIng.setBounds(500, 630, 200, 35);
+
+        btnAddIng.setBounds(600, 600, 200, 35);
+
+        lblAddIng.setBounds(60, 550, 200, 35);
+        tfAddIng.setBounds(60,580, 200, 35);
+
+        lblPris.setBounds(60, 620, 200, 35);
+        tfPris.setBounds(60, 650, 200, 35);
+
+        lblEnhet.setBounds(350, 550, 200, 35);
+        tfEnhet.setBounds(350, 580, 200, 35);
+
+        lblAmt.setBounds(350, 620, 200, 35);
+        tfAmt.setBounds(350, 650, 200, 35);
 
 
         lblRecipe.setBounds(150, 80, 200, 30);
@@ -84,7 +104,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         lblIng.setBounds(800, 100, 280, 35);
         listIng.setBounds(800, 130, 280, 400);
-        btnAddRecipe.setBounds(800, 560, 200, 35);
+        btnAddRecipe.setBounds(800, 600, 200, 35);
     }
 
 
@@ -101,10 +121,18 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(tfRecipename);
         con.add(lblInstruction);
         con.add(instructionsArea);
+        con.add(tfAddIng);
+        con.add(lblAddIng);
+        con.add(lblPris);
+        con.add(tfPris);
+        con.add(lblEnhet);
+        con.add(tfEnhet);
+
 
         con.add(lblAmt);
         con.add(tfAmt);
         con.add(btnAddIng);
+
 
         con.add(tfSearchRec);
         con.add(lblIng);
@@ -130,6 +158,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnSearch.addActionListener(this);
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnSearch) {
@@ -137,7 +166,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == btnAddIng) {
-
+            //
         }
 
 
