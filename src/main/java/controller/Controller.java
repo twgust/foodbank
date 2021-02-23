@@ -22,7 +22,7 @@ public class Controller {
     public void getSearch(){
         recipeView.getListIngModel().clear();
         try {
-            String query = "SELECT n FROM FoodBankDB.dbo.food where n Like '%" + recipeView.getSearchRep() + "%'";
+            String query = "SELECT l_namn FROM FoodBankDB.dbo.Livsmedel where l_namn Like '%" + recipeView.getSearchRep() + "%'";
             Statement st = connector.getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
 
