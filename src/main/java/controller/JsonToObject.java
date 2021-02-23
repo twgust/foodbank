@@ -3,7 +3,7 @@ package controller;
 import com.google.gson.*;
 
 import java.io.FileReader;
-
+import java.nio.charset.StandardCharsets;
 import java.sql.Statement;
 
 public class JsonToObject {
@@ -85,7 +85,9 @@ public class JsonToObject {
 
                 if ((categori.equals(cat0)) || (categori.equals(cat1)) || (categori.equals(cat2)) ||
                         (categori.equals(cat3)) || (categori.equals(cat4)) || (categori.equals(cat5)) ||
-                        (categori.equals(cat6)) || (categori.equals(cat7)) || (categori.equals(cat8)) || (categori.equals(cat9)) || (categori.equals(cat10)) || (categori.equals(cat11))) {
+                        (categori.equals(cat6)) || (categori.equals(cat7)) || (categori.equals(cat8)) ||
+                        (categori.equals(cat9)) || (categori.equals(cat10)) || (categori.equals(cat11))) {
+
                     String query = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + prod_name + "'," + priceCorr9 + ",'" + unit + "');";
                     st.executeUpdate(query);
                 }
@@ -101,14 +103,17 @@ public class JsonToObject {
 
     private String detectUnit(String compPrice) {
         String unit = "";
-        if (compPrice.contains("kr/st.")) {
+        if (compPrice.contains("kr/st")) {
             unit = "st";
         }
-        if (compPrice.contains("kr/kg.")) {
+        if (compPrice.contains("kr/kg")) {
             unit = "kg";
         }
-        if (compPrice.contains("kr/lit.")) {
+        if (compPrice.contains("kr/lit")) {
             unit = "lit";
+        }
+        if (compPrice.contains("utan sås/spad")){
+            unit = "kg";
         }
 
         return unit;
