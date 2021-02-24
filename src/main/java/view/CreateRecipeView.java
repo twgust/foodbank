@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 /*
  * Denna klass innehåller gränssnittet mot användaren som ska söka på ingredienser, lägga till ingredienser, lägga till recept och söka på recept.
@@ -156,6 +157,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     public void btnActions() {
         btnSearch.addActionListener(this);
+        btnAddIng.addActionListener(this);
     }
 
 
@@ -166,7 +168,15 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == btnAddIng) {
-            //
+            String prod_name = tfAddIng.getText();
+            String price = tfPris.getText();
+            String unit = tfEnhet.getText();
+            int price2 = Integer.parseInt(price);
+            try {
+                controller.addIngredient(prod_name, price2, unit);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
 
 
