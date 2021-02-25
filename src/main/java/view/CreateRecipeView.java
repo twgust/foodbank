@@ -17,35 +17,38 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     Container con = getContentPane();
 
+    //Namn på recept och instruktioner
+    JLabel lblRecipe = new JLabel("Receptnamn");
+    JTextField tfRecipename = new JTextField();
+    JLabel lblPortion = new JLabel("Antal portioner");
+    JTextField tfPortion = new JTextField();
+    JLabel lblInstruction = new JLabel("Tillagningsinstruktioner");
+    JTextArea instructionsArea = new JTextArea("");
+
+    //Lägg till livsmedel
+    JLabel lblAddIng = new JLabel("Ingrediens");
+    JTextField tfAddIng = new JTextField("Ingrediens här");
+    JLabel lblPris = new JLabel("Pris/enhet");
+    JTextField tfPris = new JTextField("Pris här");
+    JLabel lblEnhet = new JLabel("Enhet");
+    JTextField tfEnhet = new JTextField("Enhet här");
+    JButton btnAddIng = new JButton("Lägg till Ingrediens i DB");
+
+    //Sök på ingrediens
     JLabel lblSearch = new JLabel("Sök ingredienser");
     JTextField tfSearch = new JTextField();
     JButton btnSearch = new JButton("Search");
     JList<String> searchList = new JList<String>();
-
-
     JTextField tfSearchRec = new JTextField();
-
-    JTextField tfRecipename = new JTextField();
-    JLabel lblRecipe = new JLabel("Benämning");
-    JLabel lblInstruction = new JLabel("Tillagningsinstruktioner");
-    JTextArea instructionsArea = new JTextArea("");
-
     JLabel lblAmt = new JLabel("Mängd");
     JTextField tfAmt = new JTextField();
-    JButton btnAddIng = new JButton("Lägg till Ingredienser");
+    JButton btnAddIngredientToRecipe = new JButton("Lägg till ingrediens i recept");
 
-    JLabel lblAddIng = new JLabel("Ingrediens");
-    JTextField tfAddIng = new JTextField("Ingrediens här");
-
-    JLabel lblPris = new JLabel("Pris/enhet");
-    JTextField tfPris = new JTextField("Pris här");
-
-    JLabel lblEnhet = new JLabel("Enhet");
-    JTextField tfEnhet = new JTextField("Enhet här");
-
+    //Ingredienslista och lägg till recept
     JLabel lblIng = new JLabel("Ingredienser");
     JList<String> listIng = new JList<String>();
-    JButton btnAddRecipe = new JButton("Lägg till Recept");
+    JButton btnAddRecipe = new JButton("Lägg till recept");
+
 
     DefaultListModel listSearchModel = new DefaultListModel();
     JScrollPane searchScrollPane = new JScrollPane(searchList);
@@ -77,35 +80,42 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     Placerar rutans komponenter på given plats med koordinater och storlekar.
      */
     private void setLayout() {
-        lblSearch.setBounds(500, 70, 200, 30);
-        btnSearch.setBounds(500, 150, 200, 30);
-        // tfSearch.setBounds(850, 100, 200, 35);
-        tfSearchRec.setBounds(500, 100, 200, 35);
-        searchScrollPane.setBounds(500, 220, 200, 300);
 
-        btnAddIng.setBounds(600, 600, 200, 35);
+        //Namn på recept och instruktioner
+        lblRecipe.setBounds(60, 85, 200, 30);
+        tfRecipename.setBounds(60, 110, 200, 30);
+        lblPortion.setBounds(60, 135, 200, 30);
+        tfPortion.setBounds(60,160, 200, 30);
+        lblInstruction.setBounds(60, 190, 200, 30);
+        instructionsArea.setBounds(60, 220, 200, 300);
 
+        //Lägg till ingrediens i DB
         lblAddIng.setBounds(60, 550, 200, 35);
         tfAddIng.setBounds(60,580, 200, 35);
-
         lblPris.setBounds(60, 620, 200, 35);
         tfPris.setBounds(60, 650, 200, 35);
-
-        lblEnhet.setBounds(350, 550, 200, 35);
-        tfEnhet.setBounds(350, 580, 200, 35);
-
-        lblAmt.setBounds(350, 620, 200, 35);
-        tfAmt.setBounds(350, 650, 200, 35);
+        lblEnhet.setBounds(280, 550, 200, 35);
+        tfEnhet.setBounds(280, 580, 200, 35);
+        btnAddIng.setBounds(280, 650, 200, 35);
 
 
-        lblRecipe.setBounds(150, 80, 200, 30);
-        tfRecipename.setBounds(150, 120, 200, 30);
-        lblInstruction.setBounds(150, 170, 200, 30);
-        instructionsArea.setBounds(150, 220, 200, 300);
+        //Sök på ingrediens
+        lblSearch.setBounds(340, 85, 200, 30);
+        tfSearchRec.setBounds(340, 110, 200, 30);
+        btnSearch.setBounds(340, 160, 200, 30);
+        searchScrollPane.setBounds(340, 220, 200, 300);
 
+        lblAmt.setBounds(580, 220, 200, 35);
+        tfAmt.setBounds(580, 250, 200, 35);
+
+        btnAddIngredientToRecipe.setBounds(580, 300, 200, 35);
+
+
+        //Ingredienslista och lägg till recept
         lblIng.setBounds(800, 100, 280, 35);
         listIng.setBounds(800, 130, 280, 400);
-        btnAddRecipe.setBounds(800, 600, 200, 35);
+        btnAddRecipe.setBounds(850, 550, 200, 35);
+
     }
 
 
@@ -113,32 +123,40 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     Lägger till alla komponenter i Jframen. Uppdelat för varje "Sektion" Vänster -> höger.
      */
     public void addComponents() {
-        con.add(lblSearch);
-        con.add(btnSearch);
-       // con.add(tfSearch);
-       // con.add(searchList);
-        con.add(searchScrollPane);
+
+        //Namn på recept och instruktioner
         con.add(lblRecipe);
         con.add(tfRecipename);
+        con.add(lblPortion);
+        con.add(tfPortion);
         con.add(lblInstruction);
         con.add(instructionsArea);
+
+        //Lägg till ingrediens i DB
         con.add(tfAddIng);
         con.add(lblAddIng);
         con.add(lblPris);
         con.add(tfPris);
         con.add(lblEnhet);
         con.add(tfEnhet);
+        con.add(btnAddIng);
 
+        //Sök på ingrediens
+        con.add(lblSearch);
+        con.add(tfSearchRec);
+        con.add(btnSearch);
+        con.add(searchScrollPane);
 
         con.add(lblAmt);
         con.add(tfAmt);
-        con.add(btnAddIng);
+        con.add(btnAddIngredientToRecipe);
 
-
-        con.add(tfSearchRec);
+        //Lägg till recept
         con.add(lblIng);
         con.add(listIng);
         con.add(btnAddRecipe);
+
+
         searchList.setModel(listSearchModel);
     }
 
@@ -158,6 +176,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     public void btnActions() {
         btnSearch.addActionListener(this);
         btnAddIng.addActionListener(this);
+        btnAddRecipe.addActionListener(this);
     }
 
 
@@ -177,6 +196,11 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+        }
+
+        if (e.getSource() == btnAddRecipe) {
+
+            
         }
 
 
