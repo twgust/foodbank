@@ -17,37 +17,38 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     Container con = getContentPane();
 
+    //Namn på recept och instruktioner
+    JLabel lblRecipe = new JLabel("Receptnamn");
+    JTextField tfRecipename = new JTextField();
+    JLabel lblPortion = new JLabel("Antal portioner");
+    JTextField tfPortion = new JTextField();
+    JLabel lblInstruction = new JLabel("Tillagningsinstruktioner");
+    JTextArea instructionsArea = new JTextArea("");
+
+    //Lägg till livsmedel
+    JLabel lblAddIng = new JLabel("Ingrediens");
+    JTextField tfAddIng = new JTextField("Ingrediens här");
+    JLabel lblPris = new JLabel("Pris/enhet");
+    JTextField tfPris = new JTextField("Pris här");
+    JLabel lblEnhet = new JLabel("Enhet");
+    JTextField tfEnhet = new JTextField("Enhet här");
+    JButton btnAddIng = new JButton("Lägg till Ingrediens i DB");
+
+    //Sök på ingrediens
     JLabel lblSearch = new JLabel("Sök ingredienser");
     JTextField tfSearch = new JTextField();
     JButton btnSearch = new JButton("Search");
     JList<String> searchList = new JList<String>();
-
-
     JTextField tfSearchRec = new JTextField();
-
-    JTextField tfRecipename = new JTextField();
-    JLabel lblRecipe = new JLabel("Namn på recept");
-    JLabel lblInstruction = new JLabel("Tillagningsinstruktioner");
-    JTextArea instructionsArea = new JTextArea("");
-
     JLabel lblAmt = new JLabel("Mängd");
     JTextField tfAmt = new JTextField();
-    JButton btnAddIng = new JButton("Lägg till Ingrediens i DB");
+    JButton btnAddIngredientToRecipe = new JButton("Lägg till ingrediens i recept");
 
-    JLabel lblAddIng = new JLabel("Ingrediens");
-    JTextField tfAddIng = new JTextField("Ingrediens här");
-
-    JLabel lblPris = new JLabel("Pris/enhet");
-    JTextField tfPris = new JTextField("Pris här");
-
-    JLabel lblEnhet = new JLabel("Enhet");
-    JTextField tfEnhet = new JTextField("Enhet här");
-
+    //Ingredienslista och lägg till recept
     JLabel lblIng = new JLabel("Ingredienser");
     JList<String> listIng = new JList<String>();
     JButton btnAddRecipe = new JButton("Lägg till recept");
 
-    JButton btnAddIngredientToRecipe = new JButton("Lägg till ingrediens i recept");
 
     DefaultListModel listSearchModel = new DefaultListModel();
     JScrollPane searchScrollPane = new JScrollPane(searchList);
@@ -81,8 +82,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     private void setLayout() {
 
         //Namn på recept och instruktioner
-        lblRecipe.setBounds(60, 90, 200, 30);
-        tfRecipename.setBounds(60, 120, 200, 30);
+        lblRecipe.setBounds(60, 85, 200, 30);
+        tfRecipename.setBounds(60, 110, 200, 30);
+        lblPortion.setBounds(60, 135, 200, 30);
+        tfPortion.setBounds(60,160, 200, 30);
         lblInstruction.setBounds(60, 190, 200, 30);
         instructionsArea.setBounds(60, 220, 200, 300);
 
@@ -97,9 +100,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
 
         //Sök på ingrediens
-        lblSearch.setBounds(340, 90, 200, 30);
-        tfSearchRec.setBounds(340, 120, 200, 30);
-        btnSearch.setBounds(340, 170, 200, 30);
+        lblSearch.setBounds(340, 85, 200, 30);
+        tfSearchRec.setBounds(340, 110, 200, 30);
+        btnSearch.setBounds(340, 160, 200, 30);
         searchScrollPane.setBounds(340, 220, 200, 300);
 
         lblAmt.setBounds(580, 220, 200, 35);
@@ -124,6 +127,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         //Namn på recept och instruktioner
         con.add(lblRecipe);
         con.add(tfRecipename);
+        con.add(lblPortion);
+        con.add(tfPortion);
         con.add(lblInstruction);
         con.add(instructionsArea);
 
