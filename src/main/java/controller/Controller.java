@@ -24,13 +24,20 @@ public class Controller {
     /*
     Inserts every product in a list into the database
      */
-    public void populateDB(ArrayList<Product> list) throws SQLException {
-        Statement st = connector.getConnection().createStatement();
-        for (Product product : list) {
-            String query = generateInsertIngredientQuery(product);
-            st.executeQuery(query);
+    public void populateDB(ArrayList<Product> list) {
+        String query = "";
+        try {
+            Statement st = connector.getConnection().createStatement();
+            for (Product product : list) {
+                query = generateInsertIngredientQuery(product);
+                st.executeUpdate(query);
+            }
+            st.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println(query);
         }
-        st.close();
+        System.out.println("Finished poopulating Database");
     }
 
     /*
@@ -106,5 +113,8 @@ public class Controller {
 
     public static void main(String[] args) {
         Controller c = new Controller();
+        JsonToObject popper = new JsonToObject();
+        ArrayList<Product> list = popper.parseJsonEx("files/coopSort.json");
+        c.populateDB(list);
     }
 }

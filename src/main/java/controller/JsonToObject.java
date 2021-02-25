@@ -19,7 +19,7 @@ public class JsonToObject {
     Returns and ArrayList of Products.
      */
     //TODO: Should this be a static method?
-    private ArrayList<Product> parseJsonEx(String JsonFilename) {
+    public ArrayList<Product> parseJsonEx(String JsonFilename) {
         ArrayList<Product> productArrayList = new ArrayList<>();
 
         try {
@@ -53,6 +53,7 @@ public class JsonToObject {
                 //Gets the name of a product
                 if (p.get("prod_name") != null && !p.get("prod_name").isJsonNull()) {
                     prod_name = String.valueOf(p.get("prod_name").getAsString());
+                    prod_name = prod_name.replaceAll("'", "");
                 }
 
                 //Gets the price per unit of a product
@@ -81,7 +82,9 @@ public class JsonToObject {
                         (category.equals(cat6)) || (category.equals(cat7)) || (category.equals(cat8)) ||
                         (category.equals(cat9)) || (category.equals(cat10)) || (category.equals(cat11))) {
 
-                    productArrayList.add(new Product(prod_name, cleanPrice, unit));
+                    if(prod_name.length() > 0 && cleanPrice.length() > 0 && unit.length() > 0) {
+                        productArrayList.add(new Product(prod_name, cleanPrice, unit));
+                    }
 
                     //String query = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + prod_name + "'," + priceCorr9 + ",'" + unit + "');";
                     //st.executeUpdate(query);
