@@ -86,14 +86,6 @@ public class Controller {
         call.registerOutParameter(4, Types.INTEGER);
         call.execute();
 
-        int recipeID = call.getInt(6);
-        Statement st = connector.getConnection().createStatement();
-        for (int i = 0; i < ingList.size(); i++){
-            int ingredientID = ingList.get(i).getIngredientID();
-            String amount = ingList.get(i).getAmount();
-            String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES(" + ingredientID + ", " + recipeID + ", " + amount + ");";
-            st.executeQuery(query);
-        }
     }
 
     public void addToIngredients() {
@@ -108,6 +100,18 @@ public class Controller {
         System.out.println(queryAddIngredient); //For tracing process
         Statement st = connector.getConnection().createStatement();
         st.executeUpdate(queryAddIngredient);
+
+    }
+
+    public void showAllRecipes(){
+
+    }
+
+    public void deleteRecipe(){
+
+    }
+
+    public void editRecipe(){
 
     }
 
