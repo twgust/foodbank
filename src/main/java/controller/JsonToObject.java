@@ -117,29 +117,6 @@ public class JsonToObject {
         return unit;
     }
 
-    /*
-    Generates an SQL query string for an insert operation of a product
-     */
-    public String generateQuery(Product product){
-
-            String name = product.getProd_name();
-            String price = product.getProd_price();
-            String unit = product.getUnit();
-            String query = "INSERT INTO FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) VALUES ('" + name + "'," + price + ",'" + unit + "');";
-
-            return query;
-    }
-
-    /*
-    Inserts every product in a list into the database
-     */
-    public void populateDB(ArrayList<Product> list){
-        for (int i = 0; i < list.size(); i++){
-            String query = generateQuery(list.get(i));
-            //execute statement with query above
-        }
-    }
-
 
     public static void main(String[] args) {
         JsonToObject o = new JsonToObject();
