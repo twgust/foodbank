@@ -7,6 +7,7 @@ import view.CreateRecipeView;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Controller {
 
@@ -46,7 +47,7 @@ public class Controller {
     private String generateInsertIngredientQuery(Product product){
 
         String name = product.getProd_name();
-        String price = product.getProd_price();
+        float price = product.getProd_price();
         String unit = product.getUnit();
         String query = "INSERT INTO FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) VALUES ('" + name + "'," + price + ",'" + unit + "');";
 
@@ -125,11 +126,13 @@ public class Controller {
             Statement st = connector.getConnection().createStatement();
             ResultSet res = st.executeQuery(query);
 
+            //Iterates through resultset, creating a new Recipe object of every row and adding it to recList
             while(res.next()){
+                int recipeID = res.getInt(1);
                 String name = res.getString(2);
                 int portions = res.getInt(3);
                 String description = res.getString(4);
-                recList.add(new Recipe(name, portions, description));
+                recList.add(new Recipe(recipeID, name, portions, description));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -139,21 +142,48 @@ public class Controller {
 
     /*
     Returns details of a recipe not found in Recept table. Should be Ingredient names, amounts, prices and units.
+    The data returned is stored as a HashMap of Product as key, IngredientAmount as value.
+
+    To iterate through map use:
+    for(Entry<String, Integer> entry: map.entrySet()) {
+        Product prod  = entry.getKey();
+        IngredientAmount ing = entry.getValue();
+    }
      */
-    public void getRecipeIngredients(int recipeID){
+    public HashMap<Product, IngredientAmount> getRecipeIngredients(int recipeID){
         String query = "SELECT * FROM FoodBankDB.dbo.ReceptIngredienser WHERE r_id = " + recipeID;
+        HashMap<Product, IngredientAmount> map = new HashMap<>();
         try {
+
+            //Gets all ingredients linked to recipe
             Statement st = connector.getConnection().createStatement();
             ResultSet res = st.executeQuery(query);
+            ArrayList<IngredientAmount> iaList = new ArrayList<>();
 
+            //Creates an IngredientAmount object from every row in resultset, saves in iaList
             while(res.next()){
                 int ingredientID = res.getInt(1);
                 float amount = res.getFloat(3);
-                //TODO: Also get data from Livsmedel table
+                iaList.add(new IngredientAmount(ingredientID, amount));
+            }
+
+            //Gets every ingredient from DB table Livsmedel by the ingredientID
+            for (int i = 0; i < iaList.size(); i++) {
+                String newQuery = "SELECT * FROM FoodBankDB.dbo.Livsmedel WHERE l_id = " + iaList.get(i).getIngredientID();
+                ResultSet resultSet = st.executeQuery(newQuery);
+                String prodName = resultSet.getString(2);
+                float price = resultSet.getFloat(3);
+                String unit = resultSet.getString(4);
+
+                //Creates a Product from the resultset, puts both Product linked IngredientAmount in map
+                Product product = new Product(prodName, price, unit);
+                map.put(product, iaList.get(i));
+
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return map;
     }
 
     /*

@@ -5,7 +5,6 @@ import entity.Product;
 
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
-import java.sql.Statement;
 import java.util.ArrayList;
 /*
 This class handles product data. It reads Json files to create a list of products which can be sent to the database.
@@ -83,7 +82,8 @@ public class JsonToObject {
                         (category.equals(cat9)) || (category.equals(cat10)) || (category.equals(cat11))) {
 
                     if(prod_name.length() > 0 && cleanPrice.length() > 0 && unit.length() > 0) {
-                        productArrayList.add(new Product(prod_name, cleanPrice, unit));
+                        float fPrice = Float.parseFloat(cleanPrice);
+                        productArrayList.add(new Product(prod_name, fPrice, unit));
                     }
 
                     //String query = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + prod_name + "'," + priceCorr9 + ",'" + unit + "');";
@@ -126,9 +126,9 @@ public class JsonToObject {
         ArrayList<Product> list = o.parseJsonEx("files/coopSort.json");
         for(int i = 0; i < list.size(); i++){
             String name = list.get(i).getProd_name();
-            String price = list.get(i).getProd_price();
+            float price = list.get(i).getProd_price();
             String unit = list.get(i).getUnit();
-            System.out.println(String.format("%1$60s %2$8s %3$5s", name, price, unit));
+            System.out.println(String.format("%1$60s %2$8f %3$5s", name, price, unit));
             //System.out.println(list.get(i).getProd_name() + ", " + list.get(i).getProd_price() + ", " + list.get(i).getUnit());
         }
         System.out.println(list.size());
