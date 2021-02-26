@@ -2,17 +2,16 @@ package controller;
 
 import entity.IngredientAmount;
 import entity.Product;
+import entity.Recipe;
 import view.CreateRecipeView;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Controller {
 
-    CreateRecipeView recipeView;
-    Connector connector;
+    private CreateRecipeView recipeView;
+    private Connector connector;
 
     public Controller () {
         recipeView = new CreateRecipeView(this);
@@ -23,6 +22,7 @@ public class Controller {
 
     /*
     Inserts every product in a list into the database
+    Use once if database is empty
      */
     public void populateDB(ArrayList<Product> list) {
         String query = "";
@@ -43,7 +43,7 @@ public class Controller {
     /*
     Generates an SQL query string for an insert operation of a product
      */
-    public String generateInsertIngredientQuery(Product product){
+    private String generateInsertIngredientQuery(Product product){
 
         String name = product.getProd_name();
         String price = product.getProd_price();
@@ -86,6 +86,17 @@ public class Controller {
         call.registerOutParameter(4, Types.INTEGER);
         call.execute();
 
+        int recipeID = call.getInt(4);
+        Statement st = connector.getConnection().createStatement();
+        for(int i = 0; i < ingList.size(); i++) {
+            int ingredientID = ingList.get(i).getIngredientID();
+            float amount = ingList.get(i).getAmount();
+            String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
+            st.executeUpdate(query);
+        }
+        call.close();
+        st.close();
+
     }
 
     public void addToIngredients() {
@@ -100,17 +111,65 @@ public class Controller {
         System.out.println(queryAddIngredient); //For tracing process
         Statement st = connector.getConnection().createStatement();
         st.executeUpdate(queryAddIngredient);
+        st.close();
 
     }
 
-    public void showAllRecipes(){
+    /*
+    Retrieves all recipes from the database and returns them in an ArrayList
+     */
+    public ArrayList<Recipe> getAllRecipes(){
+        String query = "SELECT * FROM FoodBankDB.dbo.Recept";
+        ArrayList<Recipe> recList = new ArrayList<>();
+        try {
+            Statement st = connector.getConnection().createStatement();
+            ResultSet res = st.executeQuery(query);
 
+            while(res.next()){
+                String name = res.getString(2);
+                int portions = res.getInt(3);
+                String description = res.getString(4);
+                recList.add(new Recipe(name, portions, description));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return recList;
     }
 
-    public void deleteRecipe(){
+    /*
+    Returns details of a recipe not found in Recept table. Should be Ingredient names, amounts, prices and units.
+     */
+    public void getRecipeIngredients(int recipeID){
+        String query = "SELECT * FROM FoodBankDB.dbo.ReceptIngredienser WHERE r_id = " + recipeID;
+        try {
+            Statement st = connector.getConnection().createStatement();
+            ResultSet res = st.executeQuery(query);
 
+            while(res.next()){
+                int ingredientID = res.getInt(1);
+                float amount = res.getFloat(3);
+                //TODO: Also get data from Livsmedel table
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
+    /*
+    Deletes recipe from database with recipeID
+     */
+    public void deleteRecipe(int recipeID){
+        try {
+            PreparedStatement ptsmt = connector.getConnection().prepareCall("{call FoodBankDB.dbo.deleteRecipe(?)}");
+            ptsmt.setInt(1, recipeID);
+            ptsmt.execute();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    //TODO: this one is tricky idk
     public void editRecipe(){
 
     }

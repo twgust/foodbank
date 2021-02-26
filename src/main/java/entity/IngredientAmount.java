@@ -2,14 +2,14 @@ package entity;
 
 public class IngredientAmount {
     private int ingredientID;
-    private String amount;
+    private float amount;
 
-    public IngredientAmount(int ingredientID, String amount){
+    public IngredientAmount(int ingredientID, float amount){
         this.ingredientID = ingredientID;
         this.amount = amount;
     }
 
-    public String getAmount() {
+    public float getAmount() {
         return amount;
     }
 
@@ -21,7 +21,7 @@ public class IngredientAmount {
         this.ingredientID = ingredientID;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 }
