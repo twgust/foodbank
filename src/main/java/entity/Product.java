@@ -1,6 +1,7 @@
 package entity;
 
 public class Product {
+    private int id;
     private String prod_name;
     private float prod_price;
     private String unit;
@@ -9,6 +10,17 @@ public class Product {
         this.prod_name = prod_name;
         this.prod_price = prod_price;
         this.unit = unit;
+    }
+
+    public Product(int id, String prod_name, float prod_price, String unit) {
+        this.id = id;
+        this.prod_name = prod_name;
+        this.prod_price = prod_price;
+        this.unit = unit;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getProd_name() {

@@ -2,12 +2,16 @@ package view;
 
 import com.sun.java.accessibility.util.GUIInitializedListener;
 import controller.Controller;
+import entity.IngredientAmount;
+import entity.Product;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 
 /*
  * Denna klass innehåller gränssnittet mot användaren som ska söka på ingredienser, lägga till ingredienser, lägga till recept och söka på recept.
@@ -17,6 +21,8 @@ import java.sql.SQLException;
 public class CreateRecipeView extends JFrame implements ActionListener {
 
     Container con = getContentPane();
+    ArrayList<IngredientAmount> ingList = new ArrayList<>();
+    ArrayList<Product> prodList;
 
     //Namn på recept och instruktioner
     JLabel lblRecipe = new JLabel("Receptnamn");
@@ -182,6 +188,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         return searchList;
     }
 
+    public void setProdList(ArrayList<Product> prodList) {
+        this.prodList = prodList;
+    }
+
     //ActionListener för knapparna
     public void btnActions() {
         btnSearch.addActionListener(this);
@@ -204,11 +214,12 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             String price = tfPris.getText();
             String unit = tfEnhet.getText();
             int price2 = Integer.parseInt(price);
-            try {
-                controller.addIngredient(prod_name, price2, unit);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+
+            controller.addIngredient(prod_name, price2, unit);
+
+            tfAddIng.setText("");
+            tfPris.setText("");
+            tfEnhet.setText("");
         }
 
         //knapp som lägger till ingrediens i receptet i GUI
@@ -216,10 +227,13 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
             String ingredient = searchList.getSelectedValue();      //hämtar markerad ingrediens
 
-            String amount = tfAmt.getText();                        //hämtar mängd av markerad ingrediens
-            int amount2 = Integer.parseInt(amount);
+            float amount = Float.parseFloat(tfAmt.getText());      //hämtar mängd av markerad ingrediens
 
-            String total = amount2 + " " + ingredient ;             //sparar ingrediens + mängd
+            int index = searchList.getSelectedIndex();
+            ingList.add(new IngredientAmount(prodList.get(index).getId(), amount));
+
+
+            String total = amount + " " + ingredient ;             //sparar ingrediens + mängd
 
             testListModel.addElement(total);                        //lägger till på ny rad i innehåll
 
@@ -231,11 +245,18 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             if (e.getSource() == btnAddRecipe) {
 
                 String recipeName = tfRecipename.getText();     //hämtar receptnamn
+                if(recipeName.equals("")){
 
-                String portions = tfPortion.getText();          //hämtar antal portioner
+                }
+
+
+                String portions = tfPortion.getText();       //hämtar antal portioner
                 int portions2 = Integer.parseInt(portions);
 
                 String description = instructionsArea.getText();  //hämtar instruktioner
+
+                controller.addRecipe(recipeName, portions2, description, ingList);
+                ingList.clear();
 
                 //Test
                 System.out.println(recipeName);

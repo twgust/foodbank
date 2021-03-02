@@ -57,16 +57,21 @@ public class Controller {
 
     public void getSearch(){
         recipeView.getListIngModel().clear();
+        ArrayList<Product> prodList = new ArrayList<>();
         try {
-            String query = "SELECT l_namn FROM FoodBankDB.dbo.Livsmedel where l_namn Like '%" + recipeView.getSearchRep() + "%'";
+            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn Like '%" + recipeView.getSearchRep() + "%'";
             Statement st = connector.getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
 
             while (rs.next()) {
-                recipeView.getListIngModel().addElement(rs.getString(1));
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                float price = rs.getFloat(3);
+                String unit = rs.getString(4);
+                prodList.add(new Product(id, name, price, unit));
+                recipeView.getListIngModel().addElement(name);
             }
-
-            //System.out.println(st.execute(query));
+            recipeView.setProdList(prodList);
 
         } catch (Exception e) {
 
@@ -78,25 +83,29 @@ public class Controller {
     /*
     Adds a new recipe into the database
      */
-    public void addRecipe(String recipeName, int portions, String description, ArrayList<IngredientAmount> ingList) throws SQLException {
+    public void addRecipe(String recipeName, int portions, String description, ArrayList<IngredientAmount> ingList) {
 
-        CallableStatement call = connector.getConnection().prepareCall("{call FoodBankDB.dbo.addRecipe(?, ?, ?, ?)}");
-        call.setString(1, recipeName);
-        call.setInt(2,portions);
-        call.setString(3, description);
-        call.registerOutParameter(4, Types.INTEGER);
-        call.execute();
+        try {
+            CallableStatement call = connector.getConnection().prepareCall("{call FoodBankDB.dbo.addRecipe(?, ?, ?, ?)}");
+            call.setString(1, recipeName);
+            call.setInt(2, portions);
+            call.setString(3, description);
+            call.registerOutParameter(4, Types.INTEGER);
+            call.execute();
 
-        int recipeID = call.getInt(4);
-        Statement st = connector.getConnection().createStatement();
-        for(int i = 0; i < ingList.size(); i++) {
-            int ingredientID = ingList.get(i).getIngredientID();
-            float amount = ingList.get(i).getAmount();
-            String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
-            st.executeUpdate(query);
+            int recipeID = call.getInt(4);
+            Statement st = connector.getConnection().createStatement();
+            for (int i = 0; i < ingList.size(); i++) {
+                int ingredientID = ingList.get(i).getIngredientID();
+                float amount = ingList.get(i).getAmount();
+                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
+                st.executeUpdate(query);
+            }
+            call.close();
+            st.close();
+        }catch (SQLException e){
+            e.printStackTrace();
         }
-        call.close();
-        st.close();
 
     }
 
@@ -107,12 +116,17 @@ public class Controller {
     /*
     Adds a new ingredient to the database
      */
-    public void addIngredient(String prod_name, int price, String unit) throws SQLException {
+    public void addIngredient(String prod_name, int price, String unit) {
         String queryAddIngredient = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + prod_name + "'," + price + ",'" + unit + "');";
         System.out.println(queryAddIngredient); //For tracing process
-        Statement st = connector.getConnection().createStatement();
-        st.executeUpdate(queryAddIngredient);
-        st.close();
+        try{
+            Statement st = connector.getConnection().createStatement();
+            st.executeUpdate(queryAddIngredient);
+            st.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -206,8 +220,18 @@ public class Controller {
 
     public static void main(String[] args) {
         Controller c = new Controller();
+
+        /*
+        This code can be used to populate the database. Run only once if needed.
+        Other Json file can be used if formatted the same way.
+
+
+
         JsonToObject popper = new JsonToObject();
         ArrayList<Product> list = popper.parseJsonEx("files/coopSort.json");
         c.populateDB(list);
+
+         */
+
     }
 }
