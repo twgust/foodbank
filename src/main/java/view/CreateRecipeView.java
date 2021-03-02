@@ -39,6 +39,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JTextField tfPris = new JTextField("Pris här");
     JLabel lblEnhet = new JLabel("Enhet");
     JTextField tfEnhet = new JTextField("Enhet här");
+    String[] enheter = {"kg", "lit", "st", "gram", "milligram", "dl", "ml", "matsked", "tesked", "kryddmått"};
+    JComboBox<String> cbEnhet = new JComboBox<>(enheter);
     JButton btnAddIng = new JButton("Lägg till Ingrediens i DB");
 
     //Sök på ingrediens
@@ -103,8 +105,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         tfAddIng.setBounds(60, 580, 200, 35);
         lblPris.setBounds(60, 620, 200, 35);
         tfPris.setBounds(60, 650, 200, 35);
+        cbEnhet.setBounds(280, 580, 200, 35);
         lblEnhet.setBounds(280, 550, 200, 35);
-        tfEnhet.setBounds(280, 580, 200, 35);
+        //tfEnhet.setBounds(280, 580, 200, 35);
         btnAddIng.setBounds(280, 650, 200, 35);
 
 
@@ -147,7 +150,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(lblPris);
         con.add(tfPris);
         con.add(lblEnhet);
-        con.add(tfEnhet);
+        con.add(cbEnhet);
         con.add(btnAddIng);
 
         //Sök på ingrediens
@@ -200,6 +203,21 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnAddRecipe.addActionListener(this);
     }
 
+    /*
+    Checks if a string contains only letters and spaces
+     */
+    private boolean containsOnlyLetters(String str){
+        if (str == null || str.equals("")) {
+            return false;
+        }
+        for(int i = 0; i < str.length(); i++) {
+            if(!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' '){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     //Funktionalitet knappar
     @Override
@@ -210,12 +228,21 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == btnAddIng) {
-            String prod_name = tfAddIng.getText();
-            String price = tfPris.getText();
-            String unit = tfEnhet.getText();
-            int price2 = Integer.parseInt(price);
+            String name = tfAddIng.getText();
+            if(!containsOnlyLetters(name) || name.length() > 150){
+                JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö, maxlängd 150");
+                return;
+            }
+            float price;
+            try {
+                price = Float.parseFloat(tfPris.getText());
+            }catch (Exception x){
+                JOptionPane.showMessageDialog(null, "Pris skrivs in på formatet XX.XX, tex 14.99");
+                return;
+            }
+            String unit = (String) cbEnhet.getSelectedItem();
 
-            controller.addIngredient(prod_name, price2, unit);
+            controller.addIngredient(name, price, unit);
 
             tfAddIng.setText("");
             tfPris.setText("");
@@ -227,40 +254,63 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
             String ingredient = searchList.getSelectedValue();      //hämtar markerad ingrediens
 
-            float amount = Float.parseFloat(tfAmt.getText());      //hämtar mängd av markerad ingrediens
+            float amount;
+            try {
+                amount = Float.parseFloat(tfAmt.getText());      //hämtar mängd av markerad ingrediens
+            }catch(Exception f){
+                JOptionPane.showMessageDialog(null, "Mängd skrivs in på formatet XX.XX, tex 3.25");
+                return;
+            }
 
             int index = searchList.getSelectedIndex();
             ingList.add(new IngredientAmount(prodList.get(index).getId(), amount));
 
-
-            String total = amount + " " + ingredient ;             //sparar ingrediens + mängd
+            String unit = prodList.get(index).getUnit();
+            String total = amount + " " + unit + " " + ingredient ;             //sparar ingrediens, enhet och mängd
 
             testListModel.addElement(total);                        //lägger till på ny rad i innehåll
 
             tfAmt.setText("");                                      //rensar textfield mängd
+
 
             }
 
         //knapp som lägger till ett recept i DB via GUI
             if (e.getSource() == btnAddRecipe) {
 
-                String recipeName = tfRecipename.getText();     //hämtar receptnamn
-                if(recipeName.equals("")){
-
+                //Gets and verifies that recipeName is valid
+                String recipeName = tfRecipename.getText();
+                if(!containsOnlyLetters(recipeName)){
+                    JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö");
+                    return;
                 }
 
-
-                String portions = tfPortion.getText();       //hämtar antal portioner
-                int portions2 = Integer.parseInt(portions);
+                //Gets and verifies  that portions is valid
+                int portions;
+                try {
+                    portions = Integer.parseInt(tfPortion.getText());
+                }catch(Exception y){
+                    JOptionPane.showMessageDialog(null, "Ange portioner i heltal");
+                    return;
+                }
 
                 String description = instructionsArea.getText();  //hämtar instruktioner
 
-                controller.addRecipe(recipeName, portions2, description, ingList);
+                controller.addRecipe(recipeName, portions, description, ingList);
                 ingList.clear();
+
+                //Clear fields
+                tfRecipename.setText("");
+                tfPortion.setText("");
+                instructionsArea.setText("");
+
+                //Confirm action to user
+                JOptionPane.showMessageDialog(null, "Recept tillagt!");
+
 
                 //Test
                 System.out.println(recipeName);
-                System.out.println(portions2);
+                System.out.println(portions);
                 System.out.println(description);
                 System.out.println(testListModel);          //hämtar JList med receptingredienser
 

@@ -101,6 +101,7 @@ public class Controller {
                 String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
                 st.executeUpdate(query);
             }
+            System.out.println("Added " + recipeName + " to database");
             call.close();
             st.close();
         }catch (SQLException e){
@@ -116,7 +117,7 @@ public class Controller {
     /*
     Adds a new ingredient to the database
      */
-    public void addIngredient(String prod_name, int price, String unit) {
+    public void addIngredient(String prod_name, float price, String unit) {
         String queryAddIngredient = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + prod_name + "'," + price + ",'" + unit + "');";
         System.out.println(queryAddIngredient); //For tracing process
         try{
