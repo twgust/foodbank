@@ -55,7 +55,7 @@ public class Controller {
     }
 
 
-    public void getSearch(){
+    public void searchIngredient(){
         recipeView.getListIngModel().clear();
         ArrayList<Product> prodList = new ArrayList<>();
         try {
@@ -139,7 +139,11 @@ public class Controller {
     Retrieves all recipes from the database and returns them in an ArrayList
      */
     public ArrayList<Recipe> getAllRecipes(){
-        String query = "SELECT * FROM FoodBankDB.dbo.Recept";
+        return searchRecipe("");
+    }
+
+    public ArrayList<Recipe> searchRecipe(String searchWord){
+        String query = "SELECT * FROM FoodBankDB.dbo.Recept WHERE r_namn Like '%" + searchWord + "%'";
         ArrayList<Recipe> recList = new ArrayList<>();
         try {
             Statement st = connector.getConnection().createStatement();
@@ -190,6 +194,7 @@ public class Controller {
             for (int i = 0; i < iaList.size(); i++) {
                 String newQuery = "SELECT * FROM FoodBankDB.dbo.Livsmedel WHERE l_id = " + iaList.get(i).getIngredientID();
                 ResultSet resultSet = st.executeQuery(newQuery);
+                resultSet.next();
                 String prodName = resultSet.getString(2);
                 float price = resultSet.getFloat(3);
                 String unit = resultSet.getString(4);
