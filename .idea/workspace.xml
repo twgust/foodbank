@@ -44,10 +44,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../JSON-java-master/JSON-java-master/src" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -58,10 +59,16 @@
       <recent name="C:\Users\marti\Documents\GitHub\group8" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Connector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="controller.Connector" />
-      <module name="Food" />
+  <component name="RunManager" selected="Application.Controller">
+    <configuration name="Controller" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.Controller" />
+      <module name="group8" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -120,6 +127,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Controller" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.JsonReaderExample" />
         <item itemvalue="Application.CreateRecipeView" />

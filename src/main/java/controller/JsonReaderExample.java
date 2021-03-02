@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.*;
+import entity.Product;
 
 import javax.swing.*;
 import java.io.FileNotFoundException;
@@ -36,7 +37,8 @@ public class JsonReaderExample extends JFrame {
             JsonArray a = (JsonArray) parser.parse(new FileReader("files/coopSort.json"));
             for (Object o : a) {
                 JsonObject product = (JsonObject) o;
-                prod = new Product(prod_name, prod_price,category);
+
+                prod = new Product(prod_name, prod_price, category);
 
                 prod_name = String.valueOf(product.get("prod_name"));
 

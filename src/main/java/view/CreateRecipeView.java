@@ -224,11 +224,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     //knapp för att söka i DB efter sökruta
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnSearch) {
-<<<<<<< HEAD
 
-=======
             controller.getSearch();
->>>>>>> main
+
         }
 
         if (e.getSource() == btnAddIng) {
