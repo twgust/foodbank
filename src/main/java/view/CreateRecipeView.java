@@ -176,7 +176,13 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
 
     public String getSearchRep() {
-        return tfSearchRec.getText();
+        String search = tfSearchRec.getText();
+        if(containsOnlyLetters(search))
+            return search;
+        else{
+            JOptionPane.showMessageDialog(null, "Sök med endast bokstäver eller bokstäver och blanksteg");
+            return null;
+        }
     }
 
     public DefaultListModel getListIngModel() {
@@ -308,7 +314,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
                 //Confirm action to user
                 JOptionPane.showMessageDialog(null, "Recept tillagt!");
-
 
                 //Test
                 System.out.println(recipeName);
