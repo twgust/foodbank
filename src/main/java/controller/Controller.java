@@ -59,7 +59,11 @@ public class Controller {
         recipeView.getListIngModel().clear();
         ArrayList<Product> prodList = new ArrayList<>();
         try {
-            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn Like '%" + recipeView.getSearchRep() + "%'";
+            String search = recipeView.getSearchRep();
+            if(search == null){
+                return;
+            }
+            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn Like '%" + search + "%'";
             Statement st = connector.getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
 
