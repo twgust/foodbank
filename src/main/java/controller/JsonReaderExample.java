@@ -1,6 +1,5 @@
 package controller;
 
-
 import com.google.gson.*;
 
 import javax.swing.*;
