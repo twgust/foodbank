@@ -213,6 +213,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         return searchList;
     }
 
+
+
     public void setProdList(ArrayList<Product> prodList) {
         this.prodList = prodList;
     }
