@@ -230,10 +230,13 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         searchList.addListSelectionListener(new ListListener());
     }
 
+    public void setTfSearchRec(String s) {
+        tfSearchRec.setText(s);
+    }
     /*
     Checks if a string contains only letters and spaces
      */
-    private boolean containsOnlyLetters(String str){
+    public boolean containsOnlyLetters(String str){
         if (str == null || str.equals("")) {
             return false;
         }

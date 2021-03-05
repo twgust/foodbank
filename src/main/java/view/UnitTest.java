@@ -10,12 +10,18 @@ public class UnitTest {
     Controller controller;
     CreateRecipeView view = new CreateRecipeView(controller);
 
+
+
     @Test
-    public void emptySearch() {
-        assertEquals("", view.getSearchRep() == "");
+    public void inputTestSearch(){
+        String s = "abc";
+        assertEquals(true, view.containsOnlyLetters(s) );
     }
     @Test
-    public void invalidSearch() {
-        assertEquals("", view.getSearchRep());
+    public void invalidInputSearch() {
+        String s = "!!??";
+        assertEquals(false, view.containsOnlyLetters(s));
     }
+
+
 }
