@@ -117,22 +117,39 @@ public class Controller {
     public void addToIngredients() {
 
     }
-
-    /*
-    Adds a new ingredient to the database
-     */
-    public void addIngredient(String prod_name, float price, String unit) {
-        String queryAddIngredient = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + prod_name + "'," + price + ",'" + unit + "');";
-        System.out.println(queryAddIngredient); //For tracing process
+    public void executeUpdateQuery(String query){
         try{
             Statement st = connector.getConnection().createStatement();
-            st.executeUpdate(queryAddIngredient);
+            st.executeUpdate(query);
             st.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
 
+    /*
+    Adds a new ingredient to the database
+     */
+    public void addIngredient(String name, float price, String unit) {
+        String queryAddIngredient = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + name + "'," + price + ",'" + unit + "');";
+        System.out.println(queryAddIngredient); //For tracing process
+        executeUpdateQuery(queryAddIngredient);
+    }
 
+    /*
+    Edits an ingredient by re-entering all of its information
+     */
+    public void editIngredient(int id, String name, float price, String unit){
+        String query = "UPDATE TABLE FoodBandDB.dbo.Livsmedel() SET l_namn = " + name + " , l_pris = " + price + " , l_enhet = " + unit + " WHERE l_id = " + id + ";";
+        executeUpdateQuery(query);
+    }
+
+    /*
+    Deletes the connection between a recipe and an ingredient in the database
+     */
+    public void deleteIngredientFromRecipe(int ingredientID, int recipeID){
+        String query = "DELETE FROM FoodBankDB.dbo.ReceptIngredienser WHERE l_id = " + ingredientID + " AND r_id = " + recipeID + ";";
+        executeUpdateQuery(query);
     }
 
     /*
@@ -228,11 +245,13 @@ public class Controller {
 
     }
 
+
     public static void main(String[] args) {
         Controller c = new Controller();
 
         /*
         This code can be used to populate the database. Run only once if needed.
+        Wait for confirmation message before doing anything else in GUI.
         Other Json file can be used if formatted the same way.
 
 
