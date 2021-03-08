@@ -114,9 +114,6 @@ public class Controller {
 
     }
 
-    public void addToIngredients() {
-
-    }
     public void executeUpdateQuery(String query){
         try{
             Statement st = connector.getConnection().createStatement();
@@ -240,9 +237,9 @@ public class Controller {
         }
     }
 
-    //TODO: this one is tricky idk
-    public void editRecipe(){
-
+    public void editRecipe(int recipeID, String name, int portions, String description){
+        String query = "UPDATE TABLE Recept SET r_namn = " + name + " , r_portioner = " + portions + " , r_beskrivning = " + description + ";";
+        executeUpdateQuery(query);
     }
 
 

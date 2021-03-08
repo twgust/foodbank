@@ -81,7 +81,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     //Rubrik: Se recept
     JLabel lblHeadSeeRecipe = new JLabel("Se recept");
 
-    JTextField tfSeeRecipe = new JTextField();
+    JTextField tfSeeRecipe = new JTextField("");
     JButton btnSeeRecipe = new JButton("Sök på recept");
 
     JList<String> listSeeRecipe = new JList<String>();
@@ -96,18 +96,17 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JButton btnDeleteRecipe = new JButton("Radera recept");
 
 
-
-    //Buttons for show/add recipe
-    JButton btnShowRecipe = new JButton("Visa recept");
-    JButton btnCreateRecipe = new JButton("Skapa recept");
-
     //GUI-stuff
     DefaultListModel listSearchModel = new DefaultListModel();
     DefaultListModel testListModel = new DefaultListModel();
+    DefaultListModel recipeListModel = new DefaultListModel();
+    DefaultListModel ingredientListModel = new DefaultListModel();
     JScrollPane searchScrollPane = new JScrollPane(listSearchIngredients);
     JScrollPane instructions = new JScrollPane(instructionsArea);
     JScrollPane recipeList = new JScrollPane(listIngredients);
     JScrollPane listSeeRecipeScrollPane = new JScrollPane(listSeeRecipe);
+
+
 
     Controller controller = null;
 
@@ -212,6 +211,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnChangeRecipe.setBounds(940, 275, 130, 35);
         btnDeleteRecipe.setBounds(940, 325, 130, 35);
 
+        instructionsArea.setLineWrap(true);
+
 
        // btnShowRecipe.setBounds(580, 25, 120, 30);
        // btnCreateRecipe.setBounds(420, 25, 120, 30);
@@ -290,11 +291,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(btnChangeRecipe);
         con.add(btnDeleteRecipe);
 
-        //con.add(btnShowRecipe);
-       // con.add(btnCreateRecipe);
-
         listSearchIngredients.setModel(listSearchModel);
-        listIngredients.setModel(testListModel);
+        listSeeIngredients.setModel(testListModel);
+        listSeeRecipe.setModel(recipeListModel);
+        listIngredients.setModel(ingredientListModel);
     }
 
 
@@ -317,13 +317,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         return listSearchModel;
     }
 
-    public DefaultListModel getIngredientListModel() {
-        return testListModel;
-    }
 
-    public JList getList() {
-        return listSearchIngredients;
-    }
 
     public void setProdList(ArrayList<Product> prodList) {
         this.prodList = prodList;
@@ -335,9 +329,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnAddGroceries.addActionListener(this);
         btnAddIngredientToRecipe.addActionListener(this);
         btnAddRecipe.addActionListener(this);
-        btnShowRecipe.addActionListener(this);
-        btnCreateRecipe.addActionListener(this);
-        listSearchIngredients.addListSelectionListener(new ListListener());
+        btnSeeRecipe.addActionListener(this);
+        btnDeleteRecipe.addActionListener(this);
+        listSearchIngredients.addListSelectionListener(new IngListListener());
+        listSeeRecipe.addListSelectionListener(new RecipeListListener());
     }
 
     /*
@@ -356,9 +351,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     }
 
     private void updateRecipeList(){
-        listSearchModel.clear();
+        recipeListModel.clear();
         for(int i = 0; i < recList.size(); i++){
-            listSearchModel.addElement(recList.get(i).getName());
+            recipeListModel.addElement(recList.get(i).getName());
         }
     }
 
@@ -368,13 +363,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     //knapp för att söka i DB efter sökruta
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnSearchIngredients) {
-            if (!showRecipe) {
                 controller.searchIngredient();
-            }
-            if (showRecipe){
-                recList = controller.searchRecipe(getSearchRep());
-                updateRecipeList();
-            }
         }
 
         if (e.getSource() == btnAddGroceries) {
@@ -405,6 +394,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             tfAddGroceries.setText("");
             tfPrice.setText("");
             tfUnit.setText("");
+            ingredientListModel.clear();
 
             //Confirms action to user
             JOptionPane.showMessageDialog(null, "Ingrediens tillagd!");
@@ -433,7 +423,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
             //Displays added ingredients in GUI
             String total = amount + " " + unit + " " + ingredient ;
-            testListModel.addElement(total);
+            ingredientListModel.addElement(total);
 
             //Clear field
             tfAmount.setText("");
@@ -443,8 +433,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         //knapp som lägger till ett recept i DB via GUI
             if (e.getSource() == btnAddRecipe) {
-
-                if (!showRecipe) {
                     //Gets and verifies that recipeName is valid
                     String recipeName = tfRecipename.getText();
                     if (!containsOnlyLetters(recipeName)) {
@@ -470,6 +458,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                     tfRecipename.setText("");
                     tfPortion.setText("");
                     instructionsArea.setText("");
+                    ingredientListModel.clear();
 
                     //Confirm action to user
                     JOptionPane.showMessageDialog(null, "Recept tillagt!");
@@ -479,51 +468,38 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                     System.out.println(portions);
                     System.out.println(description);
                     System.out.println(testListModel);          //hämtar JList med receptingredienser
-                }
-                if (showRecipe){
-                    int index = listSearchIngredients.getSelectedIndex();
-                    controller.deleteRecipe(recList.get(index).getRecipeID());
-                    updateRecipeList();
-                }
+
 
             }
-            if(e.getSource() == btnShowRecipe){
-                showRecipe = true;
-                tfRecipename.setText("");
-                tfPortion.setText("");
-                instructionsArea.setText("");
-                tfRecipename.setEnabled(false);
-                tfPortion.setEnabled(false);
-                instructionsArea.setEnabled(false);
-                tfAmount.setEnabled(false);
-                lblSearchIngredients.setText("Sök recept");
-                btnAddRecipe.setText("Radera recept");
 
+            if(e.getSource() == btnSeeRecipe){
+                recList = controller.searchRecipe(tfSeeRecipe.getText());
+                updateRecipeList();
+            }
+
+            if (e.getSource() == btnDeleteRecipe){
+                int index = listSeeRecipe.getSelectedIndex();
+                int recipeID = recList.get(index).getRecipeID();
+                controller.deleteRecipe(recipeID);
+                JOptionPane.showMessageDialog(null, "Recept raderat!");
                 recList = controller.getAllRecipes();
                 updateRecipeList();
             }
 
-            if(e.getSource() == btnCreateRecipe){
-                showRecipe = false;
-                tfRecipename.setEnabled(true);
-                tfPortion.setEnabled(true);
-                instructionsArea.setEnabled(true);
-                tfAmount.setEnabled(true);
-                lblSearchIngredients.setText("Sök ingredienser");
-                btnAddRecipe.setText("Lägg till recept");
-                listSearchModel.clear();
-                testListModel.clear();
+            //TODO: Find a way to get input of recipe name, portions and description from GUI,
+            // then use controller.editRecipe(id, name, portions, description)
+            // ID is gotten with: int recipeID = recList.get(listSeeRecipe.getSelectedIndex()).getRecipeID;
+            if (e.getSource() == btnChangeRecipe){
             }
 
 
 
         }
 
-        private class ListListener implements ListSelectionListener{
+        private class IngListListener implements ListSelectionListener{
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(!showRecipe) {
                     int index = listSearchIngredients.getSelectedIndex();
                     if (index > -1) {
                         String unit = prodList.get(index).getUnit();
@@ -531,30 +507,37 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                     } else {
                         lblAmount.setText("Mängd");
                     }
-                }
-                if(showRecipe){
-                    int index = listSearchIngredients.getSelectedIndex();
-                    testListModel.clear();
-                    if(index > -1){
-                        Recipe recipe = recList.get(index);
-                        int recipeID = recipe.getRecipeID();
-                        HashMap<Product,IngredientAmount> map = controller.getRecipeIngredients(recipeID);
-                        float sum = 0;
-                        testListModel.addElement("Portioner: " + recipe.getPortions());
-                        for(Map.Entry<Product, IngredientAmount> entry: map.entrySet()) {
-                            Product prod  = entry.getKey();
-                            IngredientAmount ing = entry.getValue();
-                            float pricePerUnit = prod.getProd_price();
-                            float amount = ing.getAmount();
-                            float itemPrice = pricePerUnit * amount;
-                            sum += itemPrice;
-                            String itemString = prod.getProd_name() + " " + ing.getAmount() + " " + prod.getUnit() + " ~ " + itemPrice + "kr";
-                            testListModel.addElement(itemString);
-                        }
-                        testListModel.addElement("Pris för recept: " + sum + "kr");
 
+            }
+        }
+
+        private class RecipeListListener implements ListSelectionListener{
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int index = listSeeRecipe.getSelectedIndex();
+                testListModel.clear();
+                if(index > -1){
+                    Recipe recipe = recList.get(index);
+                    int recipeID = recipe.getRecipeID();
+                    HashMap<Product,IngredientAmount> map = controller.getRecipeIngredients(recipeID);
+                    float sum = 0;
+                    testListModel.addElement("Portioner: " + recipe.getPortions());
+                    for(Map.Entry<Product, IngredientAmount> entry: map.entrySet()) {
+                        Product prod  = entry.getKey();
+                        IngredientAmount ing = entry.getValue();
+                        float pricePerUnit = prod.getProd_price();
+                        float amount = ing.getAmount();
+                        float itemPrice = pricePerUnit * amount;
+                        sum += itemPrice;
+                        String itemString = prod.getProd_name() + " " + ing.getAmount() + " " + prod.getUnit() + " ~ " + itemPrice + "kr";
+                        testListModel.addElement(itemString);
                     }
+                    testListModel.addElement("-------------------------");
+                    testListModel.addElement("Pris för recept: " + sum + "kr");
+
                 }
+
             }
         }
 
