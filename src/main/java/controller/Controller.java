@@ -76,6 +76,8 @@ public class Controller {
                 recipeView.getListIngModel().addElement(name);
             }
             recipeView.setProdList(prodList);
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
 
@@ -114,6 +116,9 @@ public class Controller {
 
     }
 
+    /*
+    Creates a statement and does an executeUpdate on a given query.
+     */
     public void executeUpdateQuery(String query){
         try{
             Statement st = connector.getConnection().createStatement();
@@ -125,7 +130,7 @@ public class Controller {
     }
 
     /*
-    Adds a new ingredient to the database
+    Adds a new ingredient to the database.
      */
     public void addIngredient(String name, float price, String unit) {
         String queryAddIngredient = "Insert into FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) values('" + name + "'," + price + ",'" + unit + "');";
@@ -134,7 +139,7 @@ public class Controller {
     }
 
     /*
-    Edits an ingredient by re-entering all of its information
+    Edits an ingredient by overwriting all of its data.
      */
     public void editIngredient(int id, String name, float price, String unit){
         String query = "UPDATE TABLE FoodBandDB.dbo.Livsmedel() SET l_namn = " + name + " , l_pris = " + price + " , l_enhet = " + unit + " WHERE l_id = " + id + ";";
@@ -142,7 +147,7 @@ public class Controller {
     }
 
     /*
-    Deletes the connection between a recipe and an ingredient in the database
+    Deletes the connection between a recipe and an ingredient in the database.
      */
     public void deleteIngredientFromRecipe(int ingredientID, int recipeID){
         String query = "DELETE FROM FoodBankDB.dbo.ReceptIngredienser WHERE l_id = " + ingredientID + " AND r_id = " + recipeID + ";";
@@ -156,6 +161,9 @@ public class Controller {
         return searchRecipe("");
     }
 
+    /*
+    Searches for a recipe based on a search term. Returns a list of relevant recipes.
+     */
     public ArrayList<Recipe> searchRecipe(String searchWord){
         String query = "SELECT * FROM FoodBankDB.dbo.Recept WHERE r_namn Like '%" + searchWord + "%'";
         ArrayList<Recipe> recList = new ArrayList<>();
@@ -180,12 +188,6 @@ public class Controller {
     /*
     Returns details of a recipe not found in Recept table. Should be Ingredient names, amounts, prices and units.
     The data returned is stored as a HashMap of Product as key, IngredientAmount as value.
-
-    To iterate through map use:
-    for(Entry<String, Integer> entry: map.entrySet()) {
-        Product prod  = entry.getKey();
-        IngredientAmount ing = entry.getValue();
-    }
      */
     public HashMap<Product, IngredientAmount> getRecipeIngredients(int recipeID){
         String query = "SELECT * FROM FoodBankDB.dbo.ReceptIngredienser WHERE r_id = " + recipeID;
@@ -218,6 +220,8 @@ public class Controller {
                 map.put(product, iaList.get(i));
 
             }
+            st.close();
+            res.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -232,11 +236,15 @@ public class Controller {
             PreparedStatement ptsmt = connector.getConnection().prepareCall("{call FoodBankDB.dbo.deleteRecipe(?)}");
             ptsmt.setInt(1, recipeID);
             ptsmt.execute();
+            ptsmt.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
 
+    /*
+    Edits a recipe in the database by overwriting its data.
+     */
     public void editRecipe(int recipeID, String name, int portions, String description){
         String query = "UPDATE TABLE Recept SET r_namn = " + name + " , r_portioner = " + portions + " , r_beskrivning = " + description + ";";
         executeUpdateQuery(query);
