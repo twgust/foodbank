@@ -13,12 +13,12 @@ public class Controller {
 
     private CreateRecipeView recipeView;
     private Connector connector;
+    private Product product;
 
     public Controller () {
+        connector = new Connector();
         recipeView = new CreateRecipeView(this);
         recipeView.setVisible(true);
-        connector = new Connector();
-
     }
 
     /*
@@ -142,7 +142,7 @@ public class Controller {
     Edits an ingredient by overwriting all of its data.
      */
     public void editIngredient(int id, String name, float price, String unit){
-        String query = "UPDATE TABLE FoodBandDB.dbo.Livsmedel() SET l_namn = " + name + " , l_pris = " + price + " , l_enhet = " + unit + " WHERE l_id = " + id + ";";
+        String query = "UPDATE FoodBankDB.dbo.Livsmedel SET l_namn = '" + name + "' , l_pris = " + price + " , l_enhet = '" + unit + "' WHERE l_id = " + id + ";";
         executeUpdateQuery(query);
     }
 
@@ -250,6 +250,39 @@ public class Controller {
         executeUpdateQuery(query);
     }
 
+    /*
+    Get product information from DB and returns object. Use name as search variable
+    FIXME: kanske att det inte är så bra att endast kunna söka med ett namn. Det finns kanske dubletter i DB
+    FIXME: med samma namn. Eventuellt åtgärda detta.
+     */
+    public Product getProductInfo(String productName){
+        int id;
+        String name;
+        float price;
+        String unit;
+        try {
+            Statement statement = connector.getConnection().createStatement();
+            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn ='"+productName +"'";
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()){
+                 id = result.getInt(1);
+                name = result.getString(2);
+                price = result.getFloat(3);
+                unit = result.getString(4);
+                product = new Product(id,name,price,unit);
+            }
+            statement.close();
+            result.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return product;
+
+    }
+    public int getProductID(){
+        return product.getId();
+    }
 
     public static void main(String[] args) {
         Controller c = new Controller();
