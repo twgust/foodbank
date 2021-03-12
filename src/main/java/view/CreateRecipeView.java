@@ -65,8 +65,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     JButton btnAddRecipe                = new JButton("Lägg till recept");
     JButton btnConfirmChangeRecipe      = new JButton("Bekräfta ändra recept");
-    JButton btnChangeIngredient         = new JButton("Ändra ingrediens");
-    JButton btnDeleteIngredient         = new JButton("Ta bort ingrediens");
+    JButton btnChangeIngredient         = new JButton("Ändra ingrediens i recept");
+    JButton btnDeleteIngredient         = new JButton("Ta bort från recept");
 
 
     //Rubrik: Lägg till livsmedel
@@ -558,6 +558,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             ingredientListModel.clear();
 
             recipe = null;
+            ingredientListModel.clear();
+            ingredient = null;
+            ingredientsList.clear();
 
             btnAddRecipe.setEnabled(true);
             btnConfirmChangeRecipe.setEnabled(false);
@@ -567,16 +570,45 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             btnChangeIngredient.setEnabled(false);
             btnDeleteIngredient.setEnabled(false);
             btnAddIngredientToRecipe.setEnabled(true);
-            listIngredients.clearSelection();
-            JOptionPane.showMessageDialog(null, "Ej Implementerad");
+
+            int ingID                   = ingredient.getIngredientAmount().getIngredientID();
+            int recID                   = recipe.getRecipeID();
+            float amount                = Float.parseFloat(tfAmount.getText());
+            String ingredientUpdated    = ingredient.getProduct().getProd_name();
+            float amountBefore          = ingredient.getIngredientAmount().getAmount();
+            String unit                 = ingredient.getProduct().getUnit();
+            controller.editIngredientInRecipe(ingID, recID, amount);
+
+            int index = ingredientsList.indexOf(ingredient);
+            ingredient.getIngredientAmount().setAmount(amount);
+
+            ingredientsList.set(index, ingredient);
+            ingredientListModel.clear();
+            ingredientListModel.addAll(ingredientsList); // Jlist will render Object.toString() by default.
+
+            tfAmount.setText("");
+            JOptionPane.showMessageDialog(null, "Mängden " + ingredientUpdated +
+                    " uppdaterad i " + recipe.getName() + " från " +
+                    amountBefore + " " + unit + " till " + amount + " " + unit + ".");
         }
 
         if (e.getSource() == btnDeleteIngredient) {
             btnChangeIngredient.setEnabled(false);
             btnDeleteIngredient.setEnabled(false);
             btnAddIngredientToRecipe.setEnabled(true);
-            listIngredients.clearSelection();
-            JOptionPane.showMessageDialog(null, "Ej Implementerad");
+
+            int ingID                   = ingredient.getIngredientAmount().getIngredientID();
+            int recID                   = recipe.getRecipeID();
+            String ingredientRemoved    = ingredient.toString();
+            controller.deleteIngredientFromRecipe(ingID, recID);
+
+            ingredientsList.remove(ingredient);
+            ingredientListModel.clear();
+            ingredientListModel.addAll(ingredientsList); // Jlist will render Object.toString() by default.
+
+            tfAmount.setText("");
+            JOptionPane.showMessageDialog(null, ingredientRemoved +
+                    " borttaget från " + recipe.getName());
         }
     }
 
@@ -640,8 +672,9 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
             try {
                 ingredient = listIngredients.getSelectedValue();
+                System.out.println(ingredient.getIngredientAmount().getIngredientID());
                 tfSearchIngredients.setText(ingredient.getProduct().getProd_name());
-                controller.searchIngredient();
+                controller.searchIngredient(ingredient.getIngredientAmount().getIngredientID());
                 btnAddIngredientToRecipe.setEnabled(false);
                 btnChangeIngredient.setEnabled(true);
                 btnDeleteIngredient.setEnabled(true);
