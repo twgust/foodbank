@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import entity.Ingredient;
 import entity.IngredientAmount;
 import entity.Product;
 import entity.Recipe;
@@ -29,6 +30,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     ArrayList<Product> prodList;
     ArrayList<Recipe> recList;
     Recipe recipe;
+    Ingredient ingredient;
+    ArrayList<Ingredient> ingredientsList = new ArrayList<>();
 
     //Separatorer i GUI, de streckade linjerna
     JToolBar.Separator sepHorizontal = new JToolBar.Separator();
@@ -58,11 +61,12 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JButton btnAddIngredientToRecipe = new JButton("Lägg till ingrediens i recept");
 
     JLabel lblIngredients = new JLabel("Ingredienser");
-    JList<String> listIngredients = new JList<String>();
+    JList<Ingredient> listIngredients = new JList<Ingredient>();
 
     JButton btnAddRecipe                = new JButton("Lägg till recept");
     JButton btnConfirmChangeRecipe      = new JButton("Bekräfta ändra recept");
     JButton btnChangeIngredient         = new JButton("Ändra ingrediens");
+    JButton btnDeleteIngredient         = new JButton("Ta bort ingrediens");
 
 
     //Rubrik: Lägg till livsmedel
@@ -164,6 +168,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnConfirmChangeRecipe.setEnabled(false);
         btnChangeIngredient.setBounds(320, 650, 200, 35);
         btnChangeIngredient.setEnabled(false);
+        btnDeleteIngredient.setBounds(320, 700, 200, 35);
+        btnDeleteIngredient.setEnabled(false);
 
         //Höger kolumn i lägg till recept
         lblSearchIngredients.setBounds(320, 50, 200, 30);
@@ -244,6 +250,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         con.add(btnAddRecipe);
         con.add(btnConfirmChangeRecipe);
+        con.add(btnChangeIngredient);
+        con.add(btnDeleteIngredient);
 
         //Höger kolumn i lägg till recept
         con.add(lblSearchIngredients);
@@ -325,6 +333,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         btnAddIngredientToRecipe.addActionListener(this);
         btnAddRecipe.addActionListener(this);
         btnConfirmChangeRecipe.addActionListener(this);
+        btnChangeIngredient.addActionListener(this);
+        btnDeleteIngredient.addActionListener(this);
         btnSeeRecipe.addActionListener(this);
         btnDeleteRecipe.addActionListener(this);
         btnChangeRecipe.addActionListener(this);
@@ -501,22 +511,17 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 instructionsArea.setText(recipeDescription);
                 tfPortion.setText(String.valueOf(recipePortions));
                 ingredientListModel.clear();
-                ingList.clear();
+
                 HashMap<Product, IngredientAmount> recipeIngredients = controller.getRecipeIngredients(recipeID);
                 for (Map.Entry<Product, IngredientAmount> entry : recipeIngredients.entrySet()) {
                     Product product                     = entry.getKey();
                     IngredientAmount ingredientAmount   = entry.getValue();
 
-                    float amount        = ingredientAmount.getAmount();
-                    String unit         = product.getUnit();
-                    String productName  = product.getProd_name();
+                    Ingredient ingredient = new Ingredient(product, ingredientAmount);
 
-                    String itemString   =  amount + " " + unit + " " + productName;
-
-                    // On same index:
-                    ingredientListModel.addElement(itemString);
-                    ingList.add(ingredientAmount);
+                    ingredientsList.add(ingredient);
                 }
+                ingredientListModel.addAll(ingredientsList); // Jlist will render Object.toString() by default.
 
                 btnAddRecipe.setEnabled(false);
                 btnConfirmChangeRecipe.setEnabled(true);
@@ -556,6 +561,22 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
             btnAddRecipe.setEnabled(true);
             btnConfirmChangeRecipe.setEnabled(false);
+        }
+
+        if (e.getSource() == btnChangeIngredient) {
+            btnChangeIngredient.setEnabled(false);
+            btnDeleteIngredient.setEnabled(false);
+            btnAddIngredientToRecipe.setEnabled(true);
+            listIngredients.clearSelection();
+            JOptionPane.showMessageDialog(null, "Ej Implementerad");
+        }
+
+        if (e.getSource() == btnDeleteIngredient) {
+            btnChangeIngredient.setEnabled(false);
+            btnDeleteIngredient.setEnabled(false);
+            btnAddIngredientToRecipe.setEnabled(true);
+            listIngredients.clearSelection();
+            JOptionPane.showMessageDialog(null, "Ej Implementerad");
         }
     }
 
@@ -616,9 +637,17 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-//            int indexOfIngredient = listIngredients.getSelectedIndex();
-//
-//            controller.searchIngredient(ingList.get(indexOfIngredient).getIngredientID());
+
+            try {
+                ingredient = listIngredients.getSelectedValue();
+                tfSearchIngredients.setText(ingredient.getProduct().getProd_name());
+                controller.searchIngredient();
+                btnAddIngredientToRecipe.setEnabled(false);
+                btnChangeIngredient.setEnabled(true);
+                btnDeleteIngredient.setEnabled(true);
+            } catch (Exception exception) {
+                System.out.println("Sträng in. Ska vara Ingredient.");
+            }
         }
     }
 

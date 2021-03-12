@@ -86,32 +86,30 @@ public class Controller {
 
     }
 
-    public void searchIngredient(int search){
-        recipeView.getListIngModel().clear();
-        ArrayList<Product> prodList = new ArrayList<>();
-        try {
-            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn = " + search + ";";
-            Statement st = connector.getConnection().createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                float price = rs.getFloat(3);
-                String unit = rs.getString(4);
-                prodList.add(new Product(id, name, price, unit));
-                recipeView.getListIngModel().addElement(name);
-            }
-            recipeView.setProdList(prodList);
-            st.close();
-            rs.close();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-    }
+//    public void searchIngredient(int search){
+//        recipeView.getListIngModel().clear();
+//        ArrayList<Product> prodList = new ArrayList<>();
+//        try {
+//            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn = " + search + ";";
+//            Statement st = connector.getConnection().createStatement();
+//            ResultSet rs = st.executeQuery(query);
+//
+//            while (rs.next()) {
+//                int id = rs.getInt(1);
+//                String name = rs.getString(2);
+//                float price = rs.getFloat(3);
+//                String unit = rs.getString(4);
+//                prodList.add(new Product(id, name, price, unit));
+//                recipeView.getListIngModel().addElement(name);
+//            }
+//            recipeView.setProdList(prodList);
+//            st.close();
+//            rs.close();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /*
     Adds a new recipe into the database
@@ -279,19 +277,18 @@ public class Controller {
                 "' WHERE r_id = " + recipeID + ";";
         executeUpdateQuery(updateQuery);
 
-        try {
-            Statement st = connector.getConnection().createStatement();
-            for (int i = 0; i < ingList.size(); i++) {
-                int ingredientID = ingList.get(i).getIngredientID();
-                float amount = ingList.get(i).getAmount();
-                String insertQuery = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
-                st.executeUpdate(insertQuery);
-            }
-            st.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+//        try {
+//            Statement st = connector.getConnection().createStatement();
+//            for (int i = 0; i < ingList.size(); i++) {
+//                int ingredientID = ingList.get(i).getIngredientID();
+//                float amount = ingList.get(i).getAmount();
+//                String insertQuery = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
+//                st.executeUpdate(insertQuery);
+//            }
+//            st.close();
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
     }
 
 
