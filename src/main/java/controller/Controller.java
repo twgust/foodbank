@@ -14,12 +14,12 @@ public class Controller {
 
     private CreateRecipeView recipeView;
     private Connector connector;
+    private Product product;
 
     public Controller () {
+        connector = new Connector();
         recipeView = new CreateRecipeView(this);
         recipeView.setVisible(true);
-        connector = new Connector();
-
     }
 
     /*
@@ -162,9 +162,7 @@ public class Controller {
     Edits an ingredient by overwriting all of its data.
      */
     public void editIngredient(int id, String name, float price, String unit){
-        String query = "UPDATE TABLE FoodBandDB.dbo.Livsmedel() " +
-                "SET l_namn = '" + name + "', l_pris = " + price + " , l_enhet = '" + unit +
-                "' WHERE l_id = " + id + ";";
+        String query = "UPDATE FoodBankDB.dbo.Livsmedel SET l_namn = '" + name + "' , l_pris = " + price + " , l_enhet = '" + unit + "' WHERE l_id = " + id + ";";
         executeUpdateQuery(query);
     }
 
@@ -182,7 +180,7 @@ public class Controller {
      */
     public void editIngredientInRecipe(int ingredientID, int recipeID, float amount){
         String query = "UPDATE FoodBankDB.dbo.ReceptIngredienser" +
-                " SET mängd = " + amount +
+                " SET mï¿½ngd = " + amount +
                 " WHERE l_id = " + ingredientID + " AND r_id = " + recipeID + ";";
         executeUpdateQuery(query);
     }
@@ -297,7 +295,7 @@ public class Controller {
             for (int i = 0; i < ingList.size(); i++) {
                 int ingredientID = ingList.get(i).getIngredientAmount().getIngredientID();
                 float amount = ingList.get(i).getIngredientAmount().getAmount();
-                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
+                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mï¿½ngd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
                 st.executeUpdate(query);
             }
             st.close();
@@ -306,6 +304,39 @@ public class Controller {
         }
     }
 
+    /*
+    Get product information from DB and returns object. Use name as search variable
+    FIXME: kanske att det inte ï¿½r sï¿½ bra att endast kunna sï¿½ka med ett namn. Det finns kanske dubletter i DB
+    FIXME: med samma namn. Eventuellt ï¿½tgï¿½rda detta.
+     */
+    public Product getProductInfo(String productName){
+        int id;
+        String name;
+        float price;
+        String unit;
+        try {
+            Statement statement = connector.getConnection().createStatement();
+            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_namn ='"+productName +"'";
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()){
+                 id = result.getInt(1);
+                name = result.getString(2);
+                price = result.getFloat(3);
+                unit = result.getString(4);
+                product = new Product(id,name,price,unit);
+            }
+            statement.close();
+            result.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return product;
+
+    }
+    public int getProductID(){
+        return product.getId();
+    }
 
     public static void main(String[] args) {
         Controller c = new Controller();

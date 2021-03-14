@@ -58,6 +58,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JTextField tfAmount = new JTextField();
 
     JButton btnAddIngredientToRecipe = new JButton("Lägg till ingrediens i recept");
+    JButton btnChangeProductPrice = new JButton("Ändra pris på livsmedel");
+    JButton btnUpdateProductPrice = new JButton("Uppdatera och spara nya priset");
 
     JLabel lblIngredients = new JLabel("Ingredienser");
     JList<Ingredient> listIngredients = new JList<Ingredient>();
@@ -94,7 +96,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     JList<String> listSeeRecipe = new JList<String>();
 
-    JList<String> listSeeInstructions = new JList<>();
+    JTextArea seeDescriptionTextArea = new JTextArea();
+    //  JList<String> listSeeInstructions = new JList<>();
     JList<String> listSeeIngredients = new JList<>();
 
     JLabel lblSeeIngredients = new JLabel("Ingredienser");
@@ -185,6 +188,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         tfAmount.setBounds(320, 520, 200, 30);
 
         btnAddIngredientToRecipe.setBounds(320, 570, 200, 35);
+        btnChangeProductPrice.setBounds(320, 610, 200, 35);
+        btnChangeProductPrice.setEnabled(false);
 
 
         //Rubrik: Lägg till livsmedel
@@ -202,6 +207,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         //tfEnhet.setBounds(280, 580, 200, 35);
 
         btnAddGroceries.setBounds(830, 115, 200, 35);
+        btnUpdateProductPrice.setBounds(830, 115, 200, 35);
+        btnUpdateProductPrice.setVisible(false);
 
 
         //Rubrik: Se recept
@@ -217,7 +224,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         lblSeeInstructions.setBounds(870, 380, 220, 30);
 
         listSeeIngredients.setBounds(600, 420, 190, 250);
-        listSeeInstructions.setBounds(870, 420, 190, 250);
+        seeDescriptionTextArea.setBounds(870, 420, 190, 250);
 
         btnChangeRecipe.setBounds(940, 275, 130, 35);
         btnDeleteRecipe.setBounds(940, 325, 130, 35);
@@ -267,6 +274,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(tfAmount);
 
         con.add(btnAddIngredientToRecipe);
+        con.add(btnChangeProductPrice);
 
 
         //Rubrik: Lägg till livsmedel
@@ -281,6 +289,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(cbUnit);
 
         con.add(btnAddGroceries);
+        con.add(btnUpdateProductPrice);
 
 
         //Rubrik: Se recept
@@ -292,7 +301,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         con.add(listSeeRecipeScrollPane);
 
         con.add(listSeeIngredients);
-        con.add(listSeeInstructions);
+        con.add(seeDescriptionTextArea);
 
         con.add(lblSeeIngredients);
         con.add(lblSeeInstructions);
@@ -304,6 +313,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         listSeeIngredients.setModel(testListModel);
         listSeeRecipe.setModel(recipeListModel);
         listIngredients.setModel(ingredientListModel);
+        seeDescriptionTextArea.setLineWrap(true);
     }
 
 
@@ -345,6 +355,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         listSearchIngredients.addListSelectionListener(new IngListListener());
         listSeeRecipe.addListSelectionListener(new RecipeListListener());
         listIngredients.addListSelectionListener(new RecipeIngredientsListListener());
+        btnChangeProductPrice.addActionListener(this);
+        btnUpdateProductPrice.addActionListener(this);
     }
 
     /*
@@ -378,6 +390,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnSearchIngredients) {
             controller.searchIngredient();
+            btnChangeProductPrice.setEnabled(true);
         }
 
         if (e.getSource() == btnAddGroceries) {
@@ -617,6 +630,31 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, ingredientRemoved +
                     " borttaget från " + recipe.getName());
         }
+
+        if (e.getSource() == btnChangeProductPrice) {
+            int index = listSearchIngredients.getSelectedIndex();
+            Product product = null;
+            if (index > -1) {
+                btnAddGroceries.setVisible(false);
+                btnUpdateProductPrice.setVisible(true);
+                String prodName = listSearchIngredients.getSelectedValue();
+                product = controller.getProductInfo(prodName);
+                tfAddGroceries.setText(product.getProd_name());
+                tfPrice.setText(String.valueOf(product.getProd_price()));
+                cbUnit.setSelectedItem(product.getUnit());
+
+            } else JOptionPane.showMessageDialog(null, "Välj en ingrediens i listan");
+
+
+        }
+        if (e.getSource() == btnUpdateProductPrice) {
+
+            controller.editIngredient(controller.getProductID(), tfAddGroceries.getText(), Float.parseFloat(tfPrice.getText()), (String) cbUnit.getSelectedItem());
+            tfPrice.setText("");
+            tfAddGroceries.setText("");
+            btnUpdateProductPrice.setVisible(false);
+            btnAddGroceries.setVisible(true);
+        }
     }
 
     private void clearRecipeChangeInfo() {
@@ -690,7 +728,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                     testListModel.addElement(itemString);
                 }
                 String description = recipe.getDescription();
-                //TODO: Add description to the GUI ^ after changing instruction list to area
+                seeDescriptionTextArea.setText(description);
                 testListModel.addElement("-------------------------");
                 testListModel.addElement("Pris för recept: " + sum + "kr");
 
