@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Ingredient;
 import entity.IngredientAmount;
 import entity.Product;
 import entity.Recipe;
@@ -86,11 +87,11 @@ public class Controller {
 
     }
 
-    public void searchIngredient(int search){
+    public void searchIngredient(int searchID){
         recipeView.getListIngModel().clear();
         ArrayList<Product> prodList = new ArrayList<>();
         try {
-            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_id = " + search + ";";
+            String query = "SELECT * FROM FoodBankDB.dbo.Livsmedel where l_id = " + searchID + ";";
             Statement st = connector.getConnection().createStatement();
             ResultSet rs = st.executeQuery(query);
 
@@ -114,7 +115,7 @@ public class Controller {
     /*
     Adds a new recipe into the database
      */
-    public void addRecipe(String recipeName, int portions, String description, ArrayList<IngredientAmount> ingList) {
+    public void addRecipe(String recipeName, int portions, String description, ArrayList<Ingredient> ingList) {
 
         try {
             CallableStatement call = connector.getConnection().prepareCall("{call FoodBankDB.dbo.addRecipe(?, ?, ?, ?)}");
@@ -125,16 +126,10 @@ public class Controller {
             call.execute();
 
             int recipeID = call.getInt(4);
-            Statement st = connector.getConnection().createStatement();
-            for (int i = 0; i < ingList.size(); i++) {
-                int ingredientID = ingList.get(i).getIngredientID();
-                float amount = ingList.get(i).getAmount();
-                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
-                st.executeUpdate(query);
-            }
+            insertIngredientsToRecipe(recipeID, ingList);
+
             System.out.println("Added " + recipeName + " to database");
             call.close();
-            st.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -267,7 +262,7 @@ public class Controller {
     }
 
     /*
-    Deletes recipe from database with recipeID
+    Deletes recipe from database with recipeID.
      */
     public void deleteRecipe(int recipeID){
         try {
@@ -283,25 +278,32 @@ public class Controller {
     /*
     Edits a recipe in the database by overwriting its data.
      */
-    public void editRecipe(int recipeID, String name, int portions, String description, ArrayList<IngredientAmount> ingList){
+    public void editRecipe(int recipeID, String name, int portions, String description, ArrayList<Ingredient> ingList){
         String updateQuery =
                 "UPDATE FoodBankDB.dbo.Recept " +
                 "SET r_namn = '" + name + "', r_portioner = " + portions + ", r_beskrivning = '" + description +
                 "' WHERE r_id = " + recipeID + ";";
         executeUpdateQuery(updateQuery);
 
-//        try {
-//            Statement st = connector.getConnection().createStatement();
-//            for (int i = 0; i < ingList.size(); i++) {
-//                int ingredientID = ingList.get(i).getIngredientID();
-//                float amount = ingList.get(i).getAmount();
-//                String insertQuery = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
-//                st.executeUpdate(insertQuery);
-//            }
-//            st.close();
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
+        insertIngredientsToRecipe(recipeID, ingList);
+    }
+
+    /*
+    Inserts a list of ingredients in junction to a recipe into the database.
+     */
+    private void insertIngredientsToRecipe(int recipeID, ArrayList<Ingredient> ingList) {
+        try {
+            Statement st = connector.getConnection().createStatement();
+            for (int i = 0; i < ingList.size(); i++) {
+                int ingredientID = ingList.get(i).getIngredientAmount().getIngredientID();
+                float amount = ingList.get(i).getIngredientAmount().getAmount();
+                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
+                st.executeUpdate(query);
+            }
+            st.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
