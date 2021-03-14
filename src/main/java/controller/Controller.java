@@ -180,7 +180,7 @@ public class Controller {
      */
     public void editIngredientInRecipe(int ingredientID, int recipeID, float amount){
         String query = "UPDATE FoodBankDB.dbo.ReceptIngredienser" +
-                " SET m�ngd = " + amount +
+                " SET mängd = " + amount +
                 " WHERE l_id = " + ingredientID + " AND r_id = " + recipeID + ";";
         executeUpdateQuery(query);
     }
@@ -295,7 +295,7 @@ public class Controller {
             for (int i = 0; i < ingList.size(); i++) {
                 int ingredientID = ingList.get(i).getIngredientAmount().getIngredientID();
                 float amount = ingList.get(i).getIngredientAmount().getAmount();
-                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, m�ngd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
+                String query = "INSERT INTO FoodBankDB.dbo.ReceptIngredienser(l_id, r_id, mängd) VALUES" + "(" + ingredientID + ", " + recipeID + ", " + amount + ")";
                 st.executeUpdate(query);
             }
             st.close();
@@ -306,8 +306,8 @@ public class Controller {
 
     /*
     Get product information from DB and returns object. Use name as search variable
-    FIXME: kanske att det inte �r s� bra att endast kunna s�ka med ett namn. Det finns kanske dubletter i DB
-    FIXME: med samma namn. Eventuellt �tg�rda detta.
+    FIXME: kanske att det inte är så bra att endast kunna söka med ett namn. Det finns kanske dubletter i DB
+    FIXME: med samma namn. Eventuellt åtgärda detta.
      */
     public Product getProductInfo(String productName){
         int id;
