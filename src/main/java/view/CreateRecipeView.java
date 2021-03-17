@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /*
  * Denna klass innehåller gränssnittet mot användaren som ska söka på ingredienser, lägga till ingredienser, lägga till recept och söka på recept.
@@ -64,11 +65,11 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JLabel lblIngredients = new JLabel("Ingredienser");
     JList<Ingredient> listIngredients = new JList<Ingredient>();
 
-    JButton btnAddRecipe                = new JButton("Lägg till recept");
-    JButton btnConfirmChangeRecipe      = new JButton("Spara");
-    JButton btnCancelChangeRecipe      = new JButton("Avbryt");
-    JButton btnChangeIngredient         = new JButton("Spara ny mängd i recept");
-    JButton btnDeleteIngredient         = new JButton("Ta bort från recept");
+    JButton btnAddRecipe = new JButton("Lägg till recept");
+    JButton btnConfirmChangeRecipe = new JButton("Spara");
+    JButton btnCancelChangeRecipe = new JButton("Avbryt");
+    JButton btnChangeIngredient = new JButton("Spara ny mängd i recept");
+    JButton btnDeleteIngredient = new JButton("Ta bort från recept");
 
 
     //Rubrik: Lägg till livsmedel
@@ -374,6 +375,11 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         return true;
     }
 
+    private boolean containsCorrectCharactes(String description) {
+
+       String regex ="[a-zA-Z åäöÅÄÖ0-9!.,()]+";
+        return description.matches(regex);
+        }
     /*
     Fills the recipe list in the GUI with the current data in recList
      */
@@ -393,7 +399,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             btnChangeProductPrice.setEnabled(true);
         }
 
-        if (e.getSource() == btnAddGroceries) {
+            if (e.getSource() == btnAddGroceries) {
 
             //Gets and verifies that ingredient name is valid
             String name = tfAddGroceries.getText();
@@ -402,362 +408,366 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 return;
             }
 
-            //Gets and verifies that price is valid
-            float price;
-            try {
-                price = Float.parseFloat(tfPrice.getText());
-            } catch (Exception x) {
-                JOptionPane.showMessageDialog(null, "Pris skrivs in på formatet XX.XX, tex 14.99");
-                return;
-            }
-
-            //Gets chosen unit from combobox
-            String unit = (String) cbUnit.getSelectedItem();
-
-            //Adds ingredient to database
-            controller.addIngredient(name, price, unit);
-
-            //Clear fields
-            tfAddGroceries.setText("");
-            tfPrice.setText("");
-            tfUnit.setText("");
-            ingredientListModel.clear();
-
-            //Confirms action to user
-            JOptionPane.showMessageDialog(null, "Ingrediens tillagd!");
-        }
-
-        //knapp som lägger till ingrediens i receptet i GUI
-        if (e.getSource() == btnAddIngredientToRecipe) {
-            int index = listSearchIngredients.getSelectedIndex();
-
-            //Gets and verifies that amount is valid
-            if (index > -1) {
-                float amount;
+                //Gets and verifies that price is valid
+                float price;
                 try {
-                    amount = Float.parseFloat(tfAmount.getText());
-                } catch (Exception f) {
-                    JOptionPane.showMessageDialog(null, "Mängd skrivs in på formatet XX.XX, tex 3.25");
+                    price = Float.parseFloat(tfPrice.getText());
+                } catch (Exception x) {
+                    JOptionPane.showMessageDialog(null, "Pris skrivs in på formatet XX.XX, tex 14.99");
                     return;
                 }
 
-                Product product                     = prodList.get(index);
-                IngredientAmount ingredientAmount   = new IngredientAmount(product.getId(), amount);
-                Ingredient ingredientNew            = new Ingredient(product, ingredientAmount);
+                //Gets chosen unit from combobox
+                String unit = (String) cbUnit.getSelectedItem();
 
-                ingredientsList.add(ingredientNew);
-                ingredientListModel.addElement(ingredientNew);
+                //Adds ingredient to database
+                controller.addIngredient(name, price, unit);
 
-                //Clear field
+                //Clear fields
+                tfAddGroceries.setText("");
+                tfPrice.setText("");
+                tfUnit.setText("");
+                ingredientListModel.clear();
+
+                //Confirms action to user
+                JOptionPane.showMessageDialog(null, "Ingrediens tillagd!");
+            }
+
+            //knapp som lägger till ingrediens i receptet i GUI
+            if (e.getSource() == btnAddIngredientToRecipe) {
+                int index = listSearchIngredients.getSelectedIndex();
+
+                //Gets and verifies that amount is valid
+                if (index > -1) {
+                    float amount;
+                    try {
+                        amount = Float.parseFloat(tfAmount.getText());
+                    } catch (Exception f) {
+                        JOptionPane.showMessageDialog(null, "Mängd skrivs in på formatet XX.XX, tex 3.25");
+                        return;
+                    }
+
+                    Product product = prodList.get(index);
+                    IngredientAmount ingredientAmount = new IngredientAmount(product.getId(), amount);
+                    Ingredient ingredientNew = new Ingredient(product, ingredientAmount);
+
+                    ingredientsList.add(ingredientNew);
+                    ingredientListModel.addElement(ingredientNew);
+
+                    //Clear field
+                    tfAmount.setText("");
+                }
+            }
+
+            //knapp som lägger till ett recept i DB via GUI
+            if (e.getSource() == btnAddRecipe) {
+                //Gets and verifies that recipeName is valid
+                String recipeName = tfRecipename.getText();
+                if (!containsOnlyLetters(recipeName)) {
+                    JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö");
+                    return;
+                }
+
+                //Gets and verifies  that portions is valid
+                int portions;
+                try {
+                    portions = Integer.parseInt(tfPortion.getText());
+                } catch (Exception y) {
+                    JOptionPane.showMessageDialog(null, "Ange portioner i heltal");
+                    return;
+                }
+
+                String description = instructionsArea.getText();  //hämtar instruktioner
+                if(!containsCorrectCharactes(description)){
+                    JOptionPane.showMessageDialog(null, "Fel tecken recept ej tillagt");
+                    return;
+                }
+
+                controller.addRecipe(recipeName, portions, description, ingredientsList);
+                ingredientsList.clear();
+
+                //Clear fields
+                tfRecipename.setText("");
+                tfPortion.setText("");
+                instructionsArea.setText("");
+                ingredientListModel.clear();
+
+                //Confirm action to user
+                JOptionPane.showMessageDialog(null, "Recept tillagt!");
+
+                //Test
+                System.out.println(recipeName);
+                System.out.println(portions);
+                System.out.println(description);
+                System.out.println(testListModel);          //hämtar JList med receptingredienser
+
+
+            }
+
+            if (e.getSource() == btnSeeRecipe) {
+                recList = controller.searchRecipe(tfSeeRecipe.getText());
+                updateRecipeList();
+            }
+
+            if (e.getSource() == btnDeleteRecipe) {
+                int index = listSeeRecipe.getSelectedIndex();
+                int recipeID = recList.get(index).getRecipeID();
+                controller.deleteRecipe(recipeID);
+                JOptionPane.showMessageDialog(null, "Recept raderat!");
+                recList = controller.getAllRecipes();
+                updateRecipeList();
+            }
+
+            if (e.getSource() == btnChangeRecipe) {
+                int index = listSeeRecipe.getSelectedIndex();
+                ingredientListModel.clear();
+                ingredientsList.clear();
+
+                if (index > -1) {
+                    lblHeadAddRecipe.setText("Ändra Recept");
+                    btnSeeRecipe.setEnabled(false);
+                    btnChangeRecipe.setEnabled(false);
+                    btnDeleteRecipe.setEnabled(false);
+
+                    recipe = recList.get(index);
+
+                    int recipeID = recipe.getRecipeID();
+                    String recipeName = recipe.getName();
+                    String recipeDescription = recipe.getDescription();
+                    int recipePortions = recipe.getPortions();
+
+                    tfRecipename.setText(recipeName);
+                    instructionsArea.setText(recipeDescription);
+                    tfPortion.setText(String.valueOf(recipePortions));
+
+                    // Jlist will render Object.toString() by default from ingredientListModel.
+                    // ingredientListModel keeps information about ingredients in current recipe under change.
+                    HashMap<Product, IngredientAmount> recipeIngredients = controller.getRecipeIngredients(recipeID);
+                    for (Map.Entry<Product, IngredientAmount> entry : recipeIngredients.entrySet()) {
+                        Product product = entry.getKey();
+                        IngredientAmount ingredientAmount = entry.getValue();
+                        Ingredient ingredient = new Ingredient(product, ingredientAmount);
+                        ingredientListModel.addElement(ingredient);
+                    }
+
+                    btnAddRecipe.setEnabled(false);
+                    btnConfirmChangeRecipe.setEnabled(true);
+                    btnCancelChangeRecipe.setEnabled(true);
+                }
+            }
+
+            if (e.getSource() == btnConfirmChangeRecipe) {
+                int recipeID = recipe.getRecipeID();
+                String recipeName = tfRecipename.getText();
+                int portions;
+                String description = instructionsArea.getText();
+
+                if (!containsOnlyLetters(recipeName)) {
+                    JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö");
+                    return;
+                }
+
+                try {
+                    portions = Integer.parseInt(tfPortion.getText());
+                } catch (Exception y) {
+                    JOptionPane.showMessageDialog(null, "Ange portioner i heltal");
+                    return;
+                }
+
+                controller.editRecipe(recipeID, recipeName, portions, description, ingredientsList);
+                JOptionPane.showMessageDialog(null, "Recept ändrat!");
+                recList = controller.getAllRecipes();
+                updateRecipeList();
+
+                clearRecipeChangeInfo();
+            }
+
+            if (e.getSource() == btnCancelChangeRecipe) {
+                clearRecipeChangeInfo();
+            }
+
+            if (e.getSource() == btnChangeIngredient) {
+                btnChangeIngredient.setEnabled(false);
+                btnDeleteIngredient.setEnabled(false);
+                btnAddIngredientToRecipe.setEnabled(true);
+
+                int indexSelected = listSearchIngredients.getSelectedIndex();
+                if (indexSelected > -1) {
+                    int ingID = ingredient.getIngredientAmount().getIngredientID();
+                    int recID = recipe.getRecipeID();
+                    float amount;
+                    try {
+                        amount = Float.parseFloat(tfAmount.getText());
+                    } catch (Exception f) {
+                        JOptionPane.showMessageDialog(null, "Mängd skrivs in på formatet XX.XX, tex 3.25");
+                        return;
+                    }
+
+                    Product product = ingredient.getProduct();
+                    IngredientAmount ingredientAmount = new IngredientAmount(ingID, amount);
+                    Ingredient ingredientNew = new Ingredient(product, ingredientAmount);
+
+                    String ingredientUpdated = product.getProd_name();
+                    float amountBefore = ingredient.getIngredientAmount().getAmount();
+                    String unit = ingredient.getProduct().getUnit();
+
+                    controller.editIngredientInRecipe(ingID, recID, amount);
+                    ingredientListModel.removeElement(ingredient);
+                    ingredientListModel.addElement(ingredientNew);
+
+                    tfAmount.setText("");
+                    tfSearchIngredients.setText("");
+                    listSearchModel.clear();
+                    JOptionPane.showMessageDialog(null, "Mängden " + ingredientUpdated +
+                            " uppdaterad i " + recipe.getName() + " från " +
+                            amountBefore + " " + unit + " till " + amount + " " + unit + ".");
+                }
+            }
+
+            if (e.getSource() == btnDeleteIngredient) {
+                btnChangeIngredient.setEnabled(false);
+                btnDeleteIngredient.setEnabled(false);
+                btnAddIngredientToRecipe.setEnabled(true);
+
+                int ingID = ingredient.getIngredientAmount().getIngredientID();
+                int recID = recipe.getRecipeID();
+                String ingredientRemoved = ingredient.toString();
+                controller.deleteIngredientFromRecipe(ingID, recID);
+
+                ingredientListModel.removeElement(ingredient);
+
                 tfAmount.setText("");
+                JOptionPane.showMessageDialog(null, ingredientRemoved +
+                        " borttaget från " + recipe.getName());
+            }
+
+            if (e.getSource() == btnChangeProductPrice) {
+                int index = listSearchIngredients.getSelectedIndex();
+                Product product = null;
+                if (index > -1) {
+                    btnAddGroceries.setVisible(false);
+                    btnUpdateProductPrice.setVisible(true);
+                    String prodName = listSearchIngredients.getSelectedValue();
+                    product = controller.getProductInfo(prodName);
+                    tfAddGroceries.setText(product.getProd_name());
+                    tfPrice.setText(String.valueOf(product.getProd_price()));
+                    cbUnit.setSelectedItem(product.getUnit());
+
+                } else JOptionPane.showMessageDialog(null, "Välj en ingrediens i listan");
+
+
+            }
+            if (e.getSource() == btnUpdateProductPrice) {
+
+                controller.editIngredient(controller.getProductID(), tfAddGroceries.getText(), Float.parseFloat(tfPrice.getText()), (String) cbUnit.getSelectedItem());
+                tfPrice.setText("");
+                tfAddGroceries.setText("");
+                btnUpdateProductPrice.setVisible(false);
+                btnAddGroceries.setVisible(true);
             }
         }
 
-        //knapp som lägger till ett recept i DB via GUI
-        if (e.getSource() == btnAddRecipe) {
-            //Gets and verifies that recipeName is valid
-            String recipeName = tfRecipename.getText();
-            if (!containsOnlyLetters(recipeName)) {
-                JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö");
-                return;
-            }
+        private void clearRecipeChangeInfo () {
+            lblHeadAddRecipe.setText("Lägg till Recept");
 
-            //Gets and verifies  that portions is valid
-            int portions;
-            try {
-                portions = Integer.parseInt(tfPortion.getText());
-            } catch (Exception y) {
-                JOptionPane.showMessageDialog(null, "Ange portioner i heltal");
-                return;
-            }
-
-            String description = instructionsArea.getText();  //hämtar instruktioner
-
-            controller.addRecipe(recipeName, portions, description, ingredientsList);
-            ingredientsList.clear();
-
-            //Clear fields
             tfRecipename.setText("");
             tfPortion.setText("");
             instructionsArea.setText("");
-            ingredientListModel.clear();
-
-            //Confirm action to user
-            JOptionPane.showMessageDialog(null, "Recept tillagt!");
-
-            //Test
-            System.out.println(recipeName);
-            System.out.println(portions);
-            System.out.println(description);
-            System.out.println(testListModel);          //hämtar JList med receptingredienser
-
-
-        }
-
-        if (e.getSource() == btnSeeRecipe) {
-            recList = controller.searchRecipe(tfSeeRecipe.getText());
-            updateRecipeList();
-        }
-
-        if (e.getSource() == btnDeleteRecipe) {
-            int index = listSeeRecipe.getSelectedIndex();
-            int recipeID = recList.get(index).getRecipeID();
-            controller.deleteRecipe(recipeID);
-            JOptionPane.showMessageDialog(null, "Recept raderat!");
-            recList = controller.getAllRecipes();
-            updateRecipeList();
-        }
-
-        if (e.getSource() == btnChangeRecipe) {
-            int index = listSeeRecipe.getSelectedIndex();
-            ingredientListModel.clear();
-            ingredientsList.clear();
-
-            if (index > -1) {
-                lblHeadAddRecipe.setText("Ändra Recept");
-                btnSeeRecipe.setEnabled(false);
-                btnChangeRecipe.setEnabled(false);
-                btnDeleteRecipe.setEnabled(false);
-
-                recipe = recList.get(index);
-
-                int recipeID                = recipe.getRecipeID();
-                String recipeName           = recipe.getName();
-                String recipeDescription    = recipe.getDescription();
-                int recipePortions          = recipe.getPortions();
-
-                tfRecipename.setText(recipeName);
-                instructionsArea.setText(recipeDescription);
-                tfPortion.setText(String.valueOf(recipePortions));
-
-                // Jlist will render Object.toString() by default from ingredientListModel.
-                // ingredientListModel keeps information about ingredients in current recipe under change.
-                HashMap<Product, IngredientAmount> recipeIngredients = controller.getRecipeIngredients(recipeID);
-                for (Map.Entry<Product, IngredientAmount> entry : recipeIngredients.entrySet()) {
-                    Product product                     = entry.getKey();
-                    IngredientAmount ingredientAmount   = entry.getValue();
-                    Ingredient ingredient = new Ingredient(product, ingredientAmount);
-                    ingredientListModel.addElement(ingredient);
-                }
-
-                btnAddRecipe.setEnabled(false);
-                btnConfirmChangeRecipe.setEnabled(true);
-                btnCancelChangeRecipe.setEnabled(true);
-            }
-        }
-
-        if (e.getSource() == btnConfirmChangeRecipe) {
-            int recipeID        = recipe.getRecipeID();
-            String recipeName   = tfRecipename.getText();
-            int portions;
-            String description  = instructionsArea.getText();
-
-            if (!containsOnlyLetters(recipeName)) {
-                JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö");
-                return;
-            }
-
-            try {
-                portions = Integer.parseInt(tfPortion.getText());
-            } catch (Exception y) {
-                JOptionPane.showMessageDialog(null, "Ange portioner i heltal");
-                return;
-            }
-
-            controller.editRecipe(recipeID, recipeName, portions, description, ingredientsList);
-            JOptionPane.showMessageDialog(null, "Recept ändrat!");
-            recList = controller.getAllRecipes();
-            updateRecipeList();
-
-           clearRecipeChangeInfo();
-        }
-
-        if (e.getSource() == btnCancelChangeRecipe) {
-            clearRecipeChangeInfo();
-        }
-
-        if (e.getSource() == btnChangeIngredient) {
-            btnChangeIngredient.setEnabled(false);
-            btnDeleteIngredient.setEnabled(false);
-            btnAddIngredientToRecipe.setEnabled(true);
-
-            int indexSelected = listSearchIngredients.getSelectedIndex();
-            if (indexSelected > -1) {
-                int ingID       = ingredient.getIngredientAmount().getIngredientID();
-                int recID       = recipe.getRecipeID();
-                float amount;
-                try {
-                    amount = Float.parseFloat(tfAmount.getText());
-                } catch (Exception f) {
-                    JOptionPane.showMessageDialog(null, "Mängd skrivs in på formatet XX.XX, tex 3.25");
-                    return;
-                }
-
-                Product product                     = ingredient.getProduct();
-                IngredientAmount ingredientAmount   = new IngredientAmount(ingID, amount);
-                Ingredient ingredientNew            = new Ingredient(product, ingredientAmount);
-
-                String ingredientUpdated    = product.getProd_name();
-                float amountBefore          = ingredient.getIngredientAmount().getAmount();
-                String unit                 = ingredient.getProduct().getUnit();
-
-                controller.editIngredientInRecipe(ingID, recID, amount);
-                ingredientListModel.removeElement(ingredient);
-                ingredientListModel.addElement(ingredientNew);
-
-                tfAmount.setText("");
-                tfSearchIngredients.setText("");
-                listSearchModel.clear();
-                JOptionPane.showMessageDialog(null, "Mängden " + ingredientUpdated +
-                        " uppdaterad i " + recipe.getName() + " från " +
-                        amountBefore + " " + unit + " till " + amount + " " + unit + ".");
-            }
-        }
-
-        if (e.getSource() == btnDeleteIngredient) {
-            btnChangeIngredient.setEnabled(false);
-            btnDeleteIngredient.setEnabled(false);
-            btnAddIngredientToRecipe.setEnabled(true);
-
-            int ingID                   = ingredient.getIngredientAmount().getIngredientID();
-            int recID                   = recipe.getRecipeID();
-            String ingredientRemoved    = ingredient.toString();
-            controller.deleteIngredientFromRecipe(ingID, recID);
-
-            ingredientListModel.removeElement(ingredient);
 
             tfAmount.setText("");
-            JOptionPane.showMessageDialog(null, ingredientRemoved +
-                    " borttaget från " + recipe.getName());
+            tfSearchIngredients.setText("");
+            listSearchModel.clear();
+
+            recipe = null;
+            ingredientListModel.clear();
+            ingredient = null;
+            ingredientsList.clear();
+
+            btnAddRecipe.setEnabled(true);
+            btnConfirmChangeRecipe.setEnabled(false);
+            btnCancelChangeRecipe.setEnabled(false);
+            btnSeeRecipe.setEnabled(true);
+            btnChangeRecipe.setEnabled(true);
+            btnDeleteRecipe.setEnabled(true);
+            btnAddIngredientToRecipe.setEnabled(true);
+            btnChangeIngredient.setEnabled(false);
+            btnDeleteIngredient.setEnabled(false);
         }
-
-        if (e.getSource() == btnChangeProductPrice) {
-            int index = listSearchIngredients.getSelectedIndex();
-            Product product = null;
-            if (index > -1) {
-                btnAddGroceries.setVisible(false);
-                btnUpdateProductPrice.setVisible(true);
-                String prodName = listSearchIngredients.getSelectedValue();
-                product = controller.getProductInfo(prodName);
-                tfAddGroceries.setText(product.getProd_name());
-                tfPrice.setText(String.valueOf(product.getProd_price()));
-                cbUnit.setSelectedItem(product.getUnit());
-
-            } else JOptionPane.showMessageDialog(null, "Välj en ingrediens i listan");
-
-
-        }
-        if (e.getSource() == btnUpdateProductPrice) {
-
-            controller.editIngredient(controller.getProductID(), tfAddGroceries.getText(), Float.parseFloat(tfPrice.getText()), (String) cbUnit.getSelectedItem());
-            tfPrice.setText("");
-            tfAddGroceries.setText("");
-            btnUpdateProductPrice.setVisible(false);
-            btnAddGroceries.setVisible(true);
-        }
-    }
-
-    private void clearRecipeChangeInfo() {
-        lblHeadAddRecipe.setText("Lägg till Recept");
-
-        tfRecipename.setText("");
-        tfPortion.setText("");
-        instructionsArea.setText("");
-
-        tfAmount.setText("");
-        tfSearchIngredients.setText("");
-        listSearchModel.clear();
-
-        recipe = null;
-        ingredientListModel.clear();
-        ingredient = null;
-        ingredientsList.clear();
-
-        btnAddRecipe.setEnabled(true);
-        btnConfirmChangeRecipe.setEnabled(false);
-        btnCancelChangeRecipe.setEnabled(false);
-        btnSeeRecipe.setEnabled(true);
-        btnChangeRecipe.setEnabled(true);
-        btnDeleteRecipe.setEnabled(true);
-        btnAddIngredientToRecipe.setEnabled(true);
-        btnChangeIngredient.setEnabled(false);
-        btnDeleteIngredient.setEnabled(false);
-    }
 
     /*
     Listener for the ingredient list. Changes the unit asked for depending on the items listed unit.
      */
-    private class IngListListener implements ListSelectionListener {
+        private class IngListListener implements ListSelectionListener {
 
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            int index = listSearchIngredients.getSelectedIndex();
-            if (index > -1) {
-                String unit = prodList.get(index).getUnit();
-                lblAmount.setText("Ange mängd i " + unit);
-            } else {
-                lblAmount.setText("Mängd");
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int index = listSearchIngredients.getSelectedIndex();
+                if (index > -1) {
+                    String unit = prodList.get(index).getUnit();
+                    lblAmount.setText("Ange mängd i " + unit);
+                } else {
+                    lblAmount.setText("Mängd");
+                }
+
             }
-
         }
-    }
 
     /*
     Listener for the recipe list. Displays info about the selected recipe from the list.
      */
-    private class RecipeListListener implements ListSelectionListener {
+        private class RecipeListListener implements ListSelectionListener {
 
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            int index = listSeeRecipe.getSelectedIndex();
-            testListModel.clear();
-            if (index > -1) {
-                Recipe recipe = recList.get(index);
-                int recipeID = recipe.getRecipeID();
-                HashMap<Product, IngredientAmount> map = controller.getRecipeIngredients(recipeID);
-                float sum = 0;
-                testListModel.addElement("Portioner: " + recipe.getPortions());
-                for (Map.Entry<Product, IngredientAmount> entry : map.entrySet()) {
-                    Product prod = entry.getKey();
-                    IngredientAmount ing = entry.getValue();
-                    float pricePerUnit = prod.getProd_price();
-                    float amount = ing.getAmount();
-                    float itemPrice = pricePerUnit * amount;
-                    sum += itemPrice;
-                    String itemString = prod.getProd_name() + " " + ing.getAmount() + " " + prod.getUnit() + " ~ " + itemPrice + "kr";
-                    testListModel.addElement(itemString);
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int index = listSeeRecipe.getSelectedIndex();
+                testListModel.clear();
+                if (index > -1) {
+                    Recipe recipe = recList.get(index);
+                    int recipeID = recipe.getRecipeID();
+                    HashMap<Product, IngredientAmount> map = controller.getRecipeIngredients(recipeID);
+                    float sum = 0;
+                    testListModel.addElement("Portioner: " + recipe.getPortions());
+                    for (Map.Entry<Product, IngredientAmount> entry : map.entrySet()) {
+                        Product prod = entry.getKey();
+                        IngredientAmount ing = entry.getValue();
+                        float pricePerUnit = prod.getProd_price();
+                        float amount = ing.getAmount();
+                        float itemPrice = pricePerUnit * amount;
+                        sum += itemPrice;
+                        String itemString = prod.getProd_name() + " " + ing.getAmount() + " " + prod.getUnit() + " ~ " + itemPrice + "kr";
+                        testListModel.addElement(itemString);
+                    }
+                    String description = recipe.getDescription();
+                    seeDescriptionTextArea.setText(description);
+                    testListModel.addElement("-------------------------");
+                    testListModel.addElement("Pris för recept: " + sum + "kr");
+
                 }
-                String description = recipe.getDescription();
-                seeDescriptionTextArea.setText(description);
-                testListModel.addElement("-------------------------");
-                testListModel.addElement("Pris för recept: " + sum + "kr");
 
             }
-
         }
-    }
 
-    private class RecipeIngredientsListListener implements ListSelectionListener {
+        private class RecipeIngredientsListListener implements ListSelectionListener {
 
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
 
-            ingredient = listIngredients.getSelectedValue();
+                ingredient = listIngredients.getSelectedValue();
 
-            if (ingredient != null && !e.getValueIsAdjusting()) {
-                System.out.println(ingredient.getIngredientAmount().getIngredientID());
-                tfSearchIngredients.setText(ingredient.getProduct().getProd_name());
-                tfAmount.setText(String.valueOf(ingredient.getIngredientAmount().getAmount()));
-                controller.searchIngredient(ingredient.getIngredientAmount().getIngredientID());
-                listSearchIngredients.setSelectedIndex(0);
-                btnAddIngredientToRecipe.setEnabled(false);
-                btnChangeIngredient.setEnabled(true);
-                btnDeleteIngredient.setEnabled(true);
-            } else {
-                // Do nothing.
+                if (ingredient != null && !e.getValueIsAdjusting()) {
+                    System.out.println(ingredient.getIngredientAmount().getIngredientID());
+                    tfSearchIngredients.setText(ingredient.getProduct().getProd_name());
+                    tfAmount.setText(String.valueOf(ingredient.getIngredientAmount().getAmount()));
+                    controller.searchIngredient(ingredient.getIngredientAmount().getIngredientID());
+                    listSearchIngredients.setSelectedIndex(0);
+                    btnAddIngredientToRecipe.setEnabled(false);
+                    btnChangeIngredient.setEnabled(true);
+                    btnDeleteIngredient.setEnabled(true);
+                } else {
+                    // Do nothing.
+                }
             }
         }
-    }
 
-}
+    }
 
