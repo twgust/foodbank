@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -445,8 +446,20 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 IngredientAmount ingredientAmount   = new IngredientAmount(product.getId(), amount);
                 Ingredient ingredientNew            = new Ingredient(product, ingredientAmount);
 
-                ingredientsList.add(ingredientNew);
-                ingredientListModel.addElement(ingredientNew);
+                // To not add same ingredient twice in recipe.
+                boolean isInModel = false;
+                for (int i = 0; i < ingredientListModel.size(); i++) {
+                    Ingredient ing = (Ingredient) ingredientListModel.getElementAt(i);
+                    if (ing.getProduct().getId() == ingredientNew.getProduct().getId()) {
+                        isInModel = true;
+                    }
+                }
+                if (isInModel) {
+                    JOptionPane.showMessageDialog(null, "Ingrediens redan tillagd.");
+                } else {
+                    ingredientsList.add(ingredientNew);
+                    ingredientListModel.addElement(ingredientNew);
+                }
 
                 //Clear field
                 tfAmount.setText("");
