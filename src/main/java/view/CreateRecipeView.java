@@ -650,7 +650,16 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         }
         if (e.getSource() == btnUpdateProductPrice) {
 
-            controller.editIngredient(controller.getProductID(), tfAddGroceries.getText(), Float.parseFloat(tfPrice.getText()), (String) cbUnit.getSelectedItem());
+            float price;
+            try {
+                price = Float.parseFloat(tfPrice.getText());
+            } catch (Exception f) {
+                JOptionPane.showMessageDialog(null, "Pris måste anges.\n" +
+                        "Fel format har angivits. Skriv på format XX.XX, tex 3.25.");
+                return;
+            }
+            controller.editIngredient(controller.getProductID(), tfAddGroceries.getText(),
+                    price, (String) cbUnit.getSelectedItem());
             tfPrice.setText("");
             tfAddGroceries.setText("");
             btnUpdateProductPrice.setVisible(false);
