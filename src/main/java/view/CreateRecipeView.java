@@ -450,6 +450,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
                 //Clear field
                 tfAmount.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "En ingrediens måste väljas ur listan!");
             }
         }
 
@@ -566,6 +568,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 btnAddRecipe.setEnabled(false);
                 btnConfirmChangeRecipe.setEnabled(true);
                 btnCancelChangeRecipe.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ett recept måste väljas ur listan!");
             }
         }
 
