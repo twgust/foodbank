@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /*
  * Denna klass innehåller gränssnittet mot användaren som ska söka på ingredienser, lägga till ingredienser, lägga till recept och söka på recept.
  * Instruktioner ska då visas för receptet.
@@ -65,11 +66,11 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JLabel lblIngredients = new JLabel("Ingredienser");
     JList<Ingredient> listIngredients = new JList<Ingredient>();
 
-    JButton btnAddRecipe                = new JButton("Lägg till recept");
-    JButton btnConfirmChangeRecipe      = new JButton("Spara");
-    JButton btnCancelChangeRecipe      = new JButton("Avbryt");
-    JButton btnChangeIngredient         = new JButton("Spara ny mängd i recept");
-    JButton btnDeleteIngredient         = new JButton("Ta bort från recept");
+    JButton btnAddRecipe = new JButton("Lägg till recept");
+    JButton btnConfirmChangeRecipe = new JButton("Spara");
+    JButton btnCancelChangeRecipe = new JButton("Avbryt");
+    JButton btnChangeIngredient = new JButton("Spara ny mängd i recept");
+    JButton btnDeleteIngredient = new JButton("Ta bort från recept");
 
 
     //Rubrik: Lägg till livsmedel
@@ -368,6 +369,11 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         return str.matches(regex);
     }
 
+    private boolean containsCorrectCharactes(String description) {
+
+       String regex ="[a-zA-Z åäöÅÄÖ0-9!.,()]+";
+        return description.matches(regex);
+        }
     /*
     Fills the recipe list in the GUI with the current data in recList
      */
@@ -387,7 +393,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             btnChangeProductPrice.setEnabled(true);
         }
 
-        if (e.getSource() == btnAddGroceries) {
+            if (e.getSource() == btnAddGroceries) {
 
             //Gets and verifies that ingredient name is valid
             String name = tfAddGroceries.getText();
@@ -467,6 +473,16 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             }
 
             String description = instructionsArea.getText();  //hämtar instruktioner
+            if(!containsCorrectCharactes(description)){
+                JOptionPane.showMessageDialog(null, "Otillåtna tecken i beskrivningen \n"+
+                        "recept ej tillagt");
+                return;
+            }
+            if(ingredientsList.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Receptet saknar ingredienser \n"+
+                        "recept ej tillagt");
+                return;
+            }
 
             controller.addRecipe(recipeName, portions, description, ingredientsList);
             ingredientsList.clear();
