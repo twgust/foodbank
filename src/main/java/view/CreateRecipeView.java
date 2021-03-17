@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
+
 
 /*
  * Denna klass innehåller gränssnittet mot användaren som ska söka på ingredienser, lägga till ingredienser, lägga till recept och söka på recept.
@@ -472,6 +472,16 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             }
 
             String description = instructionsArea.getText();  //hämtar instruktioner
+            if(!containsCorrectCharactes(description)){
+                JOptionPane.showMessageDialog(null, "Otillåtna tecken i beskrivningen \n"+
+                        "recept ej tillagt");
+                return;
+            }
+            if(ingredientsList.isEmpty()){
+                JOptionPane.showMessageDialog(null,"Receptet saknar ingredienser \n"+
+                        "recept ej tillagt");
+                return;
+            }
 
             controller.addRecipe(recipeName, portions, description, ingredientsList);
             ingredientsList.clear();
