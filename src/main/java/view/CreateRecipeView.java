@@ -371,7 +371,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
     private boolean containsCorrectCharactes(String description) {
 
-       String regex ="[a-zA-Z åäöÅÄÖ0-9!.,()]+";
+       String regex ="[a-zA-Z åäöÅÄÖ0-9!.(,)]+";
         return description.matches(regex);
         }
     /*
