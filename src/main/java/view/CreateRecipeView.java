@@ -502,11 +502,16 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         if (e.getSource() == btnDeleteRecipe) {
             int index = listSeeRecipe.getSelectedIndex();
-            int recipeID = recList.get(index).getRecipeID();
-            controller.deleteRecipe(recipeID);
-            JOptionPane.showMessageDialog(null, "Recept raderat!");
-            recList = controller.getAllRecipes();
-            updateRecipeList();
+            if (index > -1) {
+                Recipe rec = recList.get(index);
+                int recID = rec.getRecipeID();
+                controller.deleteRecipe(recID);
+                JOptionPane.showMessageDialog(null, "Recept raderat!");
+                recList = controller.getAllRecipes();
+                updateRecipeList();
+            } else {
+                JOptionPane.showMessageDialog(null, "Ett recept måste väljas ur listan!");
+            }
         }
 
         if (e.getSource() == btnChangeRecipe) {
