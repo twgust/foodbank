@@ -669,8 +669,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 String prodName = listSearchIngredients.getSelectedValue();
                 product = controller.getProductInfo(prodName);
                 tfAddGroceries.setText(product.getProd_name());
+                tfAddGroceries.setEditable(false);
                 tfPrice.setText(String.valueOf(product.getProd_price()));
                 cbUnit.setSelectedItem(product.getUnit());
+                cbUnit.setEditable(false);
 
             } else JOptionPane.showMessageDialog(null, "Välj en ingrediens i listan");
 
