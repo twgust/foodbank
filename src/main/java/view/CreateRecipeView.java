@@ -31,6 +31,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     Recipe recipe;
     Ingredient ingredient;
     ArrayList<Ingredient> ingredientsList = new ArrayList<>();
+    boolean changeRecipe = false;
 
     //Separatorer i GUI, de streckade linjerna
     JToolBar.Separator sepHorizontal = new JToolBar.Separator();
@@ -514,6 +515,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == btnChangeRecipe) {
+            changeRecipe = true;
             int index = listSeeRecipe.getSelectedIndex();
             ingredientListModel.clear();
             ingredientsList.clear();
@@ -579,6 +581,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         if (e.getSource() == btnCancelChangeRecipe) {
             clearRecipeChangeInfo();
+            changeRecipe = false;
+            JOptionPane.showMessageDialog(null,
+                    "Observera att ändrade och borttagna ingredienser\n" +
+                            "för receptet är sparade i databasen.");
         }
 
         if (e.getSource() == btnChangeIngredient) {
@@ -615,7 +621,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 listSearchModel.clear();
                 JOptionPane.showMessageDialog(null, "Mängden " + ingredientUpdated +
                         " uppdaterad i " + recipe.getName() + " från " +
-                        amountBefore + " " + unit + " till " + amount + " " + unit + ".");
+                        amountBefore + " " + unit + " till " + amount + " " + unit +
+                        "i databasen. Detta kan ej avbrytas/ångras");
             }
         }
 
@@ -633,7 +640,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
             tfAmount.setText("");
             JOptionPane.showMessageDialog(null, ingredientRemoved +
-                    " borttaget från " + recipe.getName());
+                    " borttaget från " + recipe.getName() +
+                    " i DB. Detta kan ej avbrytas/ångras");
         }
 
         if (e.getSource() == btnChangeProductPrice) {
@@ -764,9 +772,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                 tfAmount.setText(String.valueOf(ingredient.getIngredientAmount().getAmount()));
                 controller.searchIngredient(ingredient.getIngredientAmount().getIngredientID());
                 listSearchIngredients.setSelectedIndex(0);
-                btnAddIngredientToRecipe.setEnabled(false);
-                btnChangeIngredient.setEnabled(true);
-                btnDeleteIngredient.setEnabled(true);
+                if (changeRecipe) {
+                    btnChangeIngredient.setEnabled(true);
+                    btnDeleteIngredient.setEnabled(true);
+                }
             } else {
                 // Do nothing.
             }
