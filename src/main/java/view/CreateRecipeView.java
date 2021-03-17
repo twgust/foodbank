@@ -364,15 +364,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     Checks if a string contains only letters and spaces
      */
     private boolean containsOnlyLetters(String str) {
-        if (str == null || str.equals("")) {
-            return false;
-        }
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' ') {
-                return false;
-            }
-        }
-        return true;
+        String regex = "[a-zA-Z åäöÅÄÖ]+";
+        return str.matches(regex);
     }
 
     private boolean containsCorrectCharactes(String description) {
@@ -502,8 +495,14 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == btnSeeRecipe) {
-            recList = controller.searchRecipe(tfSeeRecipe.getText());
-            updateRecipeList();
+            String recipeSearch = tfSeeRecipe.getText();
+            if (containsOnlyLetters(recipeSearch)) {
+                recList = controller.searchRecipe(recipeSearch);
+                updateRecipeList();
+            } else {
+                JOptionPane.showMessageDialog(null,
+                        "Söktermen endast får innehålla bokstäver och blanksteg");
+            }
         }
 
         if (e.getSource() == btnDeleteRecipe) {
