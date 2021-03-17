@@ -458,7 +458,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             //Gets and verifies that recipeName is valid
             String recipeName = tfRecipename.getText();
             if (!containsOnlyLetters(recipeName)) {
-                JOptionPane.showMessageDialog(null, "Namn får endast bestå av bokstäver a-ö");
+                JOptionPane.showMessageDialog(null, "Insättning till DB misslyckades.\n" +
+                        "Namn får bara innehålla bokstäver och blanksteg.");
                 return;
             }
 
