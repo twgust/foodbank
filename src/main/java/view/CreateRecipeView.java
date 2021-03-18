@@ -95,7 +95,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     JLabel lblHeadSeeRecipe = new JLabel("Se recept");
 
     JTextField tfSeeRecipe = new JTextField("");
-    JButton btnSeeRecipe = new JButton("Sök på recept");
+    JButton btnSeeRecipe = new JButton("Sök recept");
 
     JList<String> listSeeRecipe = new JList<String>();
 
@@ -133,6 +133,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         setResizable(false);
 
         setLayoutManager();
+        setRecipeListStart();
     }
 
     //GUI
@@ -371,8 +372,10 @@ public class CreateRecipeView extends JFrame implements ActionListener {
     }
 
     private boolean containsCorrectCharactes(String description) {
-
-       String regex ="[a-zA-Z åäöÅÄÖ0-9!.(,)]+";
+        if(description.isEmpty()){
+            return false;
+        }
+       String regex ="[a-zA-Z åäöÅÄÖ0-9!.(,)\"]+";
         return description.matches(regex);
         }
     /*
@@ -382,6 +385,13 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         recipeListModel.clear();
         for (int i = 0; i < recList.size(); i++) {
             recipeListModel.addElement(recList.get(i).getName());
+        }
+    }
+
+    public void setRecipeListStart(){
+        recList = controller.getAllRecipes();
+        for(Recipe rec: recList){
+            recipeListModel.addElement(rec.getName());
         }
     }
 
@@ -422,7 +432,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             tfAddGroceries.setText("");
             tfPrice.setText("");
             tfUnit.setText("");
-            ingredientListModel.clear();
+           // ingredientListModel.clear();
 
             //Confirms action to user
             JOptionPane.showMessageDialog(null, "Ingrediens tillagd!");
@@ -472,7 +482,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
         if (e.getSource() == btnAddRecipe) {
             //Gets and verifies that recipeName is valid
             String recipeName = tfRecipename.getText();
-            if (!containsOnlyLetters(recipeName)) {
+            if (!containsOnlyLetters(recipeName)|| recipeName.length()>254) {
                 JOptionPane.showMessageDialog(null, "Insättning till DB misslyckades.\n" +
                         "Namn får bara innehålla bokstäver och blanksteg.");
                 return;
@@ -608,7 +618,7 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Recept ändrat!");
             recList = controller.getAllRecipes();
             updateRecipeList();
-
+            changeRecipe = false;
            clearRecipeChangeInfo();
         }
 
@@ -679,17 +689,16 @@ public class CreateRecipeView extends JFrame implements ActionListener {
 
         if (e.getSource() == btnChangeProductPrice) {
             int index = listSearchIngredients.getSelectedIndex();
-            Product product = null;
             if (index > -1) {
                 btnAddGroceries.setVisible(false);
                 btnUpdateProductPrice.setVisible(true);
                 String prodName = listSearchIngredients.getSelectedValue();
-                product = controller.getProductInfo(prodName);
+                Product product = controller.getProductInfo(prodName);
                 tfAddGroceries.setText(product.getProd_name());
                 tfAddGroceries.setEditable(false);
                 tfPrice.setText(String.valueOf(product.getProd_price()));
                 cbUnit.setSelectedItem(product.getUnit());
-                cbUnit.setEditable(false);
+                cbUnit.setEnabled(false);
 
             } else JOptionPane.showMessageDialog(null, "Välj en ingrediens i listan");
 
