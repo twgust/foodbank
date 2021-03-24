@@ -18,7 +18,6 @@ public class Connector
             System.out.println("Connecting to FoodBank database...");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=FoodBankDB;", "user", "password");
-            //connection = DriverManager.getConnection("jdbc:mysql://195.178.232.16:3306/aj1757","aj1757","foodbank123");
             System.out.println("Successfully connected");
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,6 +32,5 @@ public class Connector
     {
         return this.connection;
     }
-
 
 }

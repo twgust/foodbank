@@ -1,4 +1,4 @@
-package controller;
+package utils;
 
 import com.google.gson.*;
 import entity.Product;
@@ -119,7 +119,5 @@ public class JsonToObject {
 
         return unit;
     }
-
-
 }
 
