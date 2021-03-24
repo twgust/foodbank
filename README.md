@@ -7,12 +7,15 @@ sätt upp en användare i SQL server med användarnamn "user" och lösenord "pas
 https://sqlbackupandftp.com/blog/restore-database-backup
 
 IntelliJ
-java: JDK 13, Maven
+java: JDK 13, Maven 
 Klona repositoriet från: https://github.com/twgust/group8
 
 Ladda ned/klona det som en .zip fil, .zip filen kan sedan extraheras och köras
 som ett vanligt intelliJ projekt. 
 
+I klassen Connector, kontrollera att användarnamn och lösenord stämmer överens med användarinformationen i SQL.
+För att populera databasen med ingredienser (i det fall där databasen är tom) kör metoden main() i klassen DatabasePopulator.
 
-Kör projektet genom intelliJ med metoden main() i paketet controller
+För att börja använda programmet:
+Kör projektet genom intelliJ med metoden main() i paketet controller och klassen Controller.
 
