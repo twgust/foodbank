@@ -22,40 +22,6 @@ public class Controller {
         recipeView.setVisible(true);
     }
 
-    /*
-    Inserts every product in a list into the database
-    Use once if database is empty
-     */
-    public void populateDB(ArrayList<Product> list) {
-        String query = "";
-        try {
-            Statement st = connector.getConnection().createStatement();
-            for (Product product : list) {
-                query = generateInsertIngredientQuery(product);
-                st.executeUpdate(query);
-            }
-            st.close();
-        }catch (SQLException e){
-            e.printStackTrace();
-            System.out.println(query);
-        }
-        System.out.println("Finished poopulating Database");
-    }
-
-    /*
-    Generates an SQL query string for an insert operation of a product
-     */
-    private String generateInsertIngredientQuery(Product product){
-
-        String name = product.getProd_name();
-        float price = product.getProd_price();
-        String unit = product.getUnit();
-        String query = "INSERT INTO FoodBankDB.dbo.Livsmedel(l_namn, l_pris, l_enhet) VALUES ('" + name + "'," + price + ",'" + unit + "');";
-
-        return query;
-    }
-
-
     public void searchIngredient(){
         recipeView.getListIngModel().clear();
         ArrayList<Product> prodList = new ArrayList<>();
@@ -306,8 +272,6 @@ public class Controller {
 
     /*
     Get product information from DB and returns object. Use name as search variable
-    FIXME: kanske att det inte är så bra att endast kunna söka med ett namn. Det finns kanske dubletter i DB
-    FIXME: med samma namn. Eventuellt åtgärda detta.
      */
     public Product getProductInfo(String productName){
         int id;
@@ -336,23 +300,5 @@ public class Controller {
     }
     public int getProductID(){
         return product.getId();
-    }
-
-    public static void main(String[] args) {
-        Controller c = new Controller();
-
-        /*
-        This code can be used to populate the database. Run only once if needed.
-        Wait for confirmation message before doing anything else in GUI.
-        Other Json file can be used if formatted the same way.
-
-
-
-        JsonToObject popper = new JsonToObject();
-        ArrayList<Product> list = popper.parseJsonEx("files/coopSort.json");
-        c.populateDB(list);
-
-         */
-
     }
 }

@@ -764,7 +764,6 @@ public class CreateRecipeView extends JFrame implements ActionListener {
             } else {
                 lblAmount.setText("Mängd");
             }
-
         }
     }
 

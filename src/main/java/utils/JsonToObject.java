@@ -1,4 +1,4 @@
-package controller;
+package utils;
 
 import com.google.gson.*;
 import entity.Product;
@@ -17,7 +17,6 @@ public class JsonToObject {
     Takes a Json File of products and converts it into a list of Product objects.
     Returns and ArrayList of Products.
      */
-    //TODO: Should this be a static method?
     public ArrayList<Product> parseJsonEx(String JsonFilename) {
         ArrayList<Product> productArrayList = new ArrayList<>();
 
@@ -121,26 +120,25 @@ public class JsonToObject {
     }
 
 
-    public static void main(String[] args) {
-        JsonToObject o = new JsonToObject();
-        ArrayList<Product> list = o.parseJsonEx("files/coopSort.json");
-        for(int i = 0; i < list.size(); i++){
-            String name = list.get(i).getProd_name();
-            float price = list.get(i).getProd_price();
-            String unit = list.get(i).getUnit();
-            System.out.println(String.format("%1$60s %2$8f %3$5s", name, price, unit));
-            //System.out.println(list.get(i).getProd_name() + ", " + list.get(i).getProd_price() + ", " + list.get(i).getUnit());
-        }
-        System.out.println(list.size());
-
-        /*String str = "Jfr-pris 95.63/utan sås/spad.";
-        String price = str.replaceAll("[^0-9\\.]", "");
-        StringBuilder builder = new StringBuilder();
-        builder.append(price);
-        builder.deleteCharAt(price.length()-1);
-        price = builder.toString();
-        System.out.println(price);*/
-    }
-
+//    public static void main(String[] args) {
+//        JsonToObject o = new JsonToObject();
+//        ArrayList<Product> list = o.parseJsonEx("files/coopSort.json");
+//        for(int i = 0; i < list.size(); i++){
+//            String name = list.get(i).getProd_name();
+//            float price = list.get(i).getProd_price();
+//            String unit = list.get(i).getUnit();
+//            System.out.println(String.format("%1$60s %2$8f %3$5s", name, price, unit));
+//            //System.out.println(list.get(i).getProd_name() + ", " + list.get(i).getProd_price() + ", " + list.get(i).getUnit());
+//        }
+//        System.out.println(list.size());
+//
+//        /*String str = "Jfr-pris 95.63/utan sås/spad.";
+//        String price = str.replaceAll("[^0-9\\.]", "");
+//        StringBuilder builder = new StringBuilder();
+//        builder.append(price);
+//        builder.deleteCharAt(price.length()-1);
+//        price = builder.toString();
+//        System.out.println(price);*/
+//    }
 }
 
