@@ -35,8 +35,4 @@ public class Connector
     }
 
 
-    public static void main(String[] args) {
-        Connector con = new Connector();
-    }
-
 }
