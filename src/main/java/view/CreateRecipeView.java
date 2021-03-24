@@ -718,6 +718,8 @@ public class CreateRecipeView extends JFrame implements ActionListener {
                     price, (String) cbUnit.getSelectedItem());
             tfPrice.setText("");
             tfAddGroceries.setText("");
+            tfAddGroceries.setEditable(true);
+            cbUnit.setEnabled(true);
             btnUpdateProductPrice.setVisible(false);
             btnAddGroceries.setVisible(true);
         }
